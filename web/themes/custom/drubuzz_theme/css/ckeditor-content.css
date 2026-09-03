@@ -1,0 +1,24 @@
+/**
+ * @file
+ * Injected into the CKEditor 5 editing view via the theme's
+ * `ckeditor5-stylesheets` — the supported way to style the content area.
+ * Light warm-grey panel, near-black text.
+ */
+
+.ck.ck-content,
+.ck-content {
+  background-color: #f2f1ee;
+  color: #1b1712;
+}
+
+.ck-content a { color: #1d4ed8; }
+
+.ck-content blockquote {
+  border-left: 3px solid rgba(0, 0, 0, 0.25);
+  color: #3a352e;
+}
+
+.ck-content code {
+  background: rgba(0, 0, 0, 0.07);
+  color: #1b1712;
+}

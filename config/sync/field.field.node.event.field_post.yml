@@ -1,0 +1,28 @@
+uuid: 88266301-13c7-4e40-a994-a1d283dcd501
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_post
+    - node.type.event
+    - node.type.posts
+id: node.event.field_post
+field_name: field_post
+entity_type: node
+bundle: event
+label: Post
+description: 'The social post this calendar event publishes. Shown as a link on the calendar hover card.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      posts: posts
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+field_type: entity_reference

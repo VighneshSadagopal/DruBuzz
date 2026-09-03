@@ -1,0 +1,7 @@
+oauth_popup:
+  version: VERSION
+  js:
+    js/oauth-popup.js: { attributes: { defer: true } }
+  dependencies:
+    - core/drupal
+    - core/once

@@ -1,0 +1,160 @@
+{#
+/**
+ * @file
+ * Front page — the DruBuzz marketing landing page.
+ *
+ * Renders its own markup instead of the front-page view. Sample figures in the
+ * hero calendar and the "week of Mar 3" content are placeholders.
+ *
+ * @see html.html.twig
+ * @see drubuzz_theme_page_attachments_alter()  (attaches drubuzz_theme/landing)
+ */
+#}
+<div class="db-landing">
+
+  <a id="main-content" tabindex="-1"></a>
+
+  <nav class="db-l-nav">
+    <a href="{{ front_page }}" class="db-brand" rel="home">
+      <span class="db-brand__mark" aria-hidden="true"></span>
+      <span class="db-brand__name">{{ site_name|default('DruBuzz') }}</span>
+    </a>
+    <span class="db-l-nav__links">
+      <a href="#product">Product</a>
+      <a href="#calendar">Calendar</a>
+      <a href="#review">Review flow</a>
+      <a href="#pricing">Pricing</a>
+    </span>
+    <span class="db-l-nav__right">
+      {% if logged_in %}
+        <a href="{{ path('user.logout') }}" class="db-l-signin">Log out</a>
+        <a href="{{ path('view.events_calendar.page_1') }}" class="db-btn db-btn--primary">Open calendar</a>
+      {% else %}
+        <a href="{{ path('user.login') }}" class="db-l-signin">Sign in</a>
+        <a href="{{ path('user.register') }}" class="db-btn db-btn--primary">Start planning</a>
+      {% endif %}
+    </span>
+  </nav>
+
+  {{ page.highlighted }}
+  {{ page.help }}
+
+  <section class="db-l-hero" id="product">
+    <div>
+      <span class="db-l-eyebrow"><span class="db-brand__mark" aria-hidden="true"></span>Social publishing, planned</span>
+      <h1>Plan the <em>buzz</em> before it happens.</h1>
+      <p class="db-l-lead">One calendar for every channel. Draft a post once, preview it exactly as X, LinkedIn and Instagram will render it, and schedule the whole week in an afternoon.</p>
+      <div class="db-l-cta">
+        {% if logged_in %}
+          <a href="{{ path('view.events_calendar.page_1') }}" class="db-btn db-btn--primary">Open calendar</a>
+          <a href="{{ path('node.add', {'node_type': 'posts'}) }}" class="db-btn">New post</a>
+        {% else %}
+          <a href="{{ path('user.register') }}" class="db-btn db-btn--primary">Start planning free</a>
+          <a href="{{ path('view.events_calendar.page_1') }}" class="db-btn">See a live calendar</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="db-l-glass" aria-hidden="true">
+      <div class="db-l-glass__hd"><span class="t">This week</span><span class="r">Mar 3 – Mar 9</span></div>
+      <div class="db-l-mini">
+        <div class="db-l-mini__col">
+          <span class="db-l-mini__d">Mon <b>3</b></span>
+          <div class="db-l-mini__p is-sched"><b>09:00 · LinkedIn</b>Spring launch teaser</div>
+          <div class="db-l-mini__p is-sched"><b>14:30 · X</b>3 things we learned</div>
+        </div>
+        <div class="db-l-mini__col">
+          <span class="db-l-mini__d">Tue <b>4</b></span>
+          <div class="db-l-mini__p is-review"><b>11:00 · Instagram</b>Studio tour reel</div>
+        </div>
+        <div class="db-l-mini__col">
+          <span class="db-l-mini__d">Wed <b>5</b></span>
+          <div class="db-l-mini__p is-sched"><b>08:30 · X + Mastodon</b>New on the blog</div>
+          <div class="db-l-mini__p is-draft"><b>17:00 · Facebook</b>AMA recap</div>
+        </div>
+        <div class="db-l-mini__col">
+          <span class="db-l-mini__d">Thu <b>6</b></span>
+          <div class="db-l-mini__p is-sched"><b>10:00 · LinkedIn</b>Hiring: brand designer</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="db-l-trust">
+    <div class="db-l-trust__row">
+      <span class="db-l-k">Publishes to</span>
+      <span class="db-l-chans"><span>LinkedIn</span><span>X</span><span>Instagram</span><span>Facebook</span><span>Mastodon</span></span>
+      <span class="db-l-k db-l-trust__end">Built on Drupal 11</span>
+    </div>
+  </div>
+
+  <section class="db-l-section" id="calendar">
+    <h2>Everything a weekly publishing routine needs — and nothing it doesn't.</h2>
+    <p class="db-l-sub">DruBuzz is a planner, not another inbox. It does three things properly.</p>
+    <div class="db-l-feats">
+      <div class="db-l-feat">
+        <span class="db-l-feat__ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M9 14l2 2 4-4"/></svg>
+        </span>
+        <h3>Per-platform previews</h3>
+        <p>See the real thing before it ships — X's 280-character bar, LinkedIn's headline line, Instagram's square crop. The over-limit warning turns red so nothing gets truncated in public.</p>
+      </div>
+      <div class="db-l-feat" id="review">
+        <span class="db-l-feat__ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16M15 4v16"/></svg>
+        </span>
+        <h3>Week-at-a-glance calendar</h3>
+        <p>Every channel on one grid, colour-coded by status. Drag a post to a new slot, spot the empty Saturday, and fill next week before it arrives.</p>
+      </div>
+      <div class="db-l-feat">
+        <span class="db-l-feat__ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M12 3l7 4v5c0 5-3 8-7 9-4-1-7-4-7-9V7l7-4Z"/></svg>
+        </span>
+        <h3>Review workflow built in</h3>
+        <p>Editors draft, reviewers approve. A post moves Draft → In review → Scheduled with a clear owner at every step, so nothing publishes that nobody signed off.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="db-l-steps" id="pricing">
+    <div class="db-l-steps__inner">
+      <div class="db-l-step">
+        <span class="db-l-step__no">STEP 01</span>
+        <h3>Draft once</h3>
+        <p>Write the shared short version and the long version. Pick which channels it goes to.</p>
+      </div>
+      <div class="db-l-step">
+        <span class="db-l-step__no">STEP 02</span>
+        <h3>Preview per channel</h3>
+        <p>Flip between X, LinkedIn and Instagram layouts. Fix anything the character budget flags.</p>
+      </div>
+      <div class="db-l-step">
+        <span class="db-l-step__no">STEP 03</span>
+        <h3>Drop it on the week</h3>
+        <p>Set a date and time, send it for review, and watch the calendar fill in.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="db-l-band">
+    <h2>Your next week of posts is one afternoon away.</h2>
+    <p>Free while it's in preview. No card, no seat limit.</p>
+    <div class="db-l-cta">
+      {% if logged_in %}
+        <a href="{{ path('view.events_calendar.page_1') }}" class="db-btn db-btn--primary">Open calendar</a>
+      {% else %}
+        <a href="{{ path('user.register') }}" class="db-btn db-btn--primary">Start planning free</a>
+        <a href="{{ path('user.login') }}" class="db-btn">Sign in</a>
+      {% endif %}
+    </div>
+  </section>
+
+  <footer class="db-l-footer">
+    <span class="db-brand">
+      <span class="db-brand__mark" aria-hidden="true"></span>
+      <span class="db-brand__name">{{ site_name|default('DruBuzz') }}</span>
+    </span>
+    <span class="db-l-footer__note">A social-post planner built on Drupal 11.</span>
+  </footer>
+
+</div>

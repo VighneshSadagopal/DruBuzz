@@ -1,0 +1,24 @@
+# Drupal / DDEV project — track custom code + exported config, ignore build artifacts.
+/vendor/
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/web/libraries/
+/web/sites/*/files/
+/web/sites/*/private/
+/web/sites/*/settings.local.php
+/web/sites/*/settings.ddev.php
+/web/.csslintrc
+/web/.eslintignore
+/web/.eslintrc.json
+/web/.ht.router.php
+/web/.htaccess
+/web/example.gitignore
+/web/INSTALL.txt
+/web/README.md
+/web/robots.txt
+/web/update.php
+/web/web.config
+/.ddev/
+.DS_Store

@@ -1,0 +1,27 @@
+uuid: 8dcddb49-c72d-4758-8674-28926db37059
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_publish_channels
+field_name: field_publish_channels
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: linkedin
+      label: LinkedIn
+    -
+      value: x
+      label: X
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

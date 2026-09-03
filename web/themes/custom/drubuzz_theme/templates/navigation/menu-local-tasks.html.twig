@@ -1,0 +1,22 @@
+{#
+/**
+ * @file
+ * DruBuzz local tasks — the View / Edit / Delete / … tabs on entity pages.
+ *
+ * Core ships these as a class-less <ul>, so they render as a bullet list in a
+ * theme with no base theme. This override adds hooks (.db-tabs, .db-tabs__list)
+ * that css/base.css styles as a tab bar.
+ */
+#}
+{% if primary %}
+  <nav class="db-tabs db-tabs--primary" aria-label="{{ 'Primary tabs'|t }}">
+    <h2 class="visually-hidden">{{ 'Primary tabs'|t }}</h2>
+    <ul class="db-tabs__list">{{ primary }}</ul>
+  </nav>
+{% endif %}
+{% if secondary %}
+  <nav class="db-tabs db-tabs--secondary" aria-label="{{ 'Secondary tabs'|t }}">
+    <h2 class="visually-hidden">{{ 'Secondary tabs'|t }}</h2>
+    <ul class="db-tabs__list db-tabs__list--secondary">{{ secondary }}</ul>
+  </nav>
+{% endif %}

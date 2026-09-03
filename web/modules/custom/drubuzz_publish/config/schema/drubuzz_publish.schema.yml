@@ -1,0 +1,16 @@
+drubuzz_publish.settings:
+  type: config_object
+  label: 'DruBuzz Publish settings'
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Scheduled publishing enabled'
+    linkedin_client_id:
+      type: string
+      label: 'LinkedIn OAuth client ID'
+    x_client_id:
+      type: string
+      label: 'X OAuth client ID'
+    linkedin_api_version:
+      type: string
+      label: 'LinkedIn versioned API date (YYYYMM)'

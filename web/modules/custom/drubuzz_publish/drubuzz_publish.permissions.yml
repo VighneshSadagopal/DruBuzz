@@ -1,0 +1,8 @@
+'administer drubuzz publish':
+  title: 'Administer DruBuzz Publish'
+  description: 'Configure LinkedIn / X API credentials and connect or disconnect the posting accounts.'
+  restrict access: true
+
+'publish drubuzz posts':
+  title: 'Send DruBuzz posts to social networks'
+  description: 'Trigger an immediate publish of a Posts node to the connected LinkedIn / X accounts.'

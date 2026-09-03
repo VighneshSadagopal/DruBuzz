@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * Generic fallback preview. Each platform overrides this with its own
+ * social-post-preview--<platform>.html.twig; this is only used if a platform
+ * template is missing.
+ *
+ * Available variables:
+ * - post: {
+ *     platform, platform_label, author_name, username, handle, headline,
+ *     avatar, initials, timestamp, datetime, body, char_count, char_limit,
+ *     over_limit, image, url
+ *   }
+ */
+#}
+<article class="sp sp--generic">
+  <div class="sp-gen__head">
+    {% include '@drubuzz_social_preview/_avatar.html.twig' with { post: post } %}
+    <div class="sp-gen__id">
+      <span class="sp-gen__name">{{ post.author_name }}</span>
+      {% if post.handle %}<span class="sp-gen__handle">{{ post.handle }}</span>{% endif %}
+      <time class="sp-gen__time" datetime="{{ post.datetime }}">{{ post.timestamp }}</time>
+    </div>
+  </div>
+  <div class="sp-gen__body">{{ post.body|nl2br }}</div>
+  {% if post.image %}<div class="sp-gen__media">{{ post.image }}</div>{% endif %}
+</article>
+{% include '@drubuzz_social_preview/_meta.html.twig' with { post: post } %}

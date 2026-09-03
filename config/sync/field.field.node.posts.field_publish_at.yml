@@ -1,0 +1,21 @@
+uuid: 250cb5b2-b5c6-4b6d-95ce-c7a086b1310f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_publish_at
+    - node.type.posts
+  module:
+    - datetime
+id: node.posts.field_publish_at
+field_name: field_publish_at
+entity_type: node
+bundle: posts
+label: 'Publish at'
+description: 'When DruBuzz should send this post to the connected social accounts. Leave empty to keep it manual.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

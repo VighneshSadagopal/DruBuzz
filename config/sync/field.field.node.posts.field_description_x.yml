@@ -1,0 +1,19 @@
+uuid: a484b650-ae24-4a8f-afa8-2733ab9f94ad
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_description_x
+    - node.type.posts
+id: node.posts.field_description_x
+field_name: field_description_x
+entity_type: node
+bundle: posts
+label: 'Description (X / Mastodon)'
+description: 'Body text used for the X and Mastodon posts. Keep it within 280 characters so it fits X.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

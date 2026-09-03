@@ -1,0 +1,87 @@
+{#
+/**
+ * @file
+ * DruBuzz page chrome.
+ *
+ * Two modes:
+ *  - App mode (signed in, not the front page): left sidebar rail with the app
+ *    nav + identity chip, slim top bar with the page title and a Compose action.
+ *  - Public mode: top bar with wordmark + primary menu.
+ *
+ * The front page uses page--front.html.twig instead.
+ *
+ * @see html.html.twig
+ * @see drubuzz_theme_preprocess_page()
+ */
+#}
+{% set app_mode = logged_in and not is_front %}
+
+<div class="db-shell{{ app_mode ? ' db-shell--app' : '' }}">
+
+  {% if app_mode %}
+    <aside class="db-sidebar" role="complementary">
+      <a href="{{ front_page }}" class="db-brand db-sidebar__brand" rel="home">
+        <span class="db-brand__mark" aria-hidden="true"></span>
+        <span class="db-brand__name">{{ site_name|default('DruBuzz') }}</span>
+      </a>
+
+      <div class="db-sidebar__nav">
+        {{ page.sidebar }}
+      </div>
+
+      {% if db_user_name %}
+        <div class="db-sidebar__me">
+          <span class="db-sidebar__av" aria-hidden="true">{{ db_user_initials }}</span>
+          <span class="db-sidebar__id">
+            <span class="db-sidebar__name">{{ db_user_name }}</span>
+            <a href="{{ path('user.logout') }}" class="db-sidebar__logout">Log out</a>
+          </span>
+        </div>
+      {% endif %}
+    </aside>
+  {% endif %}
+
+  <div class="db-shell__col">
+
+    <header class="db-topbar" role="banner">
+      {% if not app_mode %}
+        <a href="{{ front_page }}" class="db-brand" rel="home">
+          <span class="db-brand__mark" aria-hidden="true"></span>
+          <span class="db-brand__name">{{ site_name|default('DruBuzz') }}</span>
+        </a>
+        {% if page.primary_menu %}
+          <nav class="db-topbar__nav">{{ page.primary_menu }}</nav>
+        {% endif %}
+      {% endif %}
+
+      {% if title %}
+        <h1 class="db-topbar__title">{{ title }}</h1>
+      {% endif %}
+
+      <div class="db-topbar__actions">
+        {% if logged_in %}
+          <a href="{{ path('node.add', {'node_type': 'posts'}) }}" class="db-btn db-btn--primary">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Compose
+          </a>
+        {% endif %}
+        {{ page.header }}
+      </div>
+    </header>
+
+    <main class="db-main" role="main">
+      <a id="main-content" tabindex="-1"></a>
+
+      {{ page.highlighted }}
+      {{ page.help }}
+      {{ page.content }}
+    </main>
+
+    {% if page.footer %}
+      <footer class="db-footer" role="contentinfo">
+        {{ page.footer }}
+      </footer>
+    {% endif %}
+
+  </div>
+</div>

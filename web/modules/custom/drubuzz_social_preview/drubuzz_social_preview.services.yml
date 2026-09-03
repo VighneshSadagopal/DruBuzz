@@ -1,0 +1,8 @@
+services:
+  drubuzz_social_preview.builder:
+    class: Drupal\drubuzz_social_preview\SocialPostBuilder
+    arguments:
+      - '@entity_type.manager'
+      - '@date.formatter'
+      - '@renderer'
+      - '@config.factory'

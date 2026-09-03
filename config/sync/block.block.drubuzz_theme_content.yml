@@ -1,0 +1,22 @@
+uuid: f72da6cb-2056-4ee5-897a-fc2dc50ffaef
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - drubuzz_theme
+_core:
+  default_config_hash: fW4pykcmKt4XuKa7ceCt5qetpxaxeKstut7Bn7-yw4k
+id: drubuzz_theme_content
+theme: drubuzz_theme
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,11 @@
+name: 'DruBuzz Social Preview'
+type: module
+description: 'Renders a Posts node as platform-accurate social media post previews (LinkedIn, X, Instagram, Facebook, Mastodon) opened in a modal from the node page.'
+package: DruBuzz
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - drupal:node
+  - drupal:media
+  - drupal:media_library
+  - drupal:image
+  - media_library_form_element:media_library_form_element

@@ -1,0 +1,13 @@
+{#
+/**
+ * @file
+ * Author avatar: the user picture when set, otherwise an initials disc.
+ * Variables: post (needs post.avatar and post.initials), modifier (optional).
+ */
+#}
+{% set modifier = modifier|default('') %}
+{% if post.avatar %}
+  <span class="sp-avatar sp-avatar--img {{ modifier }}">{{ post.avatar }}</span>
+{% else %}
+  <span class="sp-avatar sp-avatar--initials {{ modifier }}" aria-hidden="true">{{ post.initials }}</span>
+{% endif %}

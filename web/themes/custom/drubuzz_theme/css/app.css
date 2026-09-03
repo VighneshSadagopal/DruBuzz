@@ -1,0 +1,241 @@
+/**
+ * @file
+ * DruBuzz app shell — sidebar rail, identity chip, slim top bar, the content
+ * queue, and the post composer form. Loaded site-wide (after base.css).
+ */
+
+/* ===================================================================== *
+ * App shell layout
+ * ===================================================================== */
+.db-shell--app { flex-direction: row; align-items: stretch; }
+.db-shell--app .db-shell__col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.db-shell:not(.db-shell--app) .db-shell__col { display: contents; }
+
+/* ---- Sidebar ---- */
+.db-sidebar {
+  width: var(--db-sidebar-w);
+  flex: 0 0 var(--db-sidebar-w);
+  border-right: 1px solid var(--db-line);
+  background: var(--db-surface-1);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.db-sidebar__brand { padding: 0 0.5rem; }
+
+.db-sidebar__nav { flex: 1; }
+.db-sidebar__nav nav { display: block; }
+.db-sidebar__nav h2 { margin: 0; }
+.db-sidebar__nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  align-items: stretch;
+}
+.db-sidebar__nav li { margin: 0; }
+.db-sidebar__nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: var(--db-radius-sm);
+  color: var(--db-ink-2);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.db-sidebar__nav a:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--db-ink);
+  text-decoration: none;
+}
+.db-sidebar__nav a.is-active,
+.db-sidebar__nav .menu__item--active-trail > a {
+  background: rgba(205, 242, 58, 0.12);
+  color: var(--db-ink);
+}
+
+/* Identity chip */
+.db-sidebar__me {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.7rem;
+  border: 1px solid var(--db-line);
+  border-radius: var(--db-radius);
+  background: var(--db-surface-2);
+}
+.db-sidebar__av {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--db-signal), #8fb81f);
+  color: var(--db-signal-ink);
+  font-weight: 800;
+  font-size: 0.8rem;
+}
+.db-sidebar__id { display: flex; flex-direction: column; min-width: 0; }
+.db-sidebar__name { font-weight: 700; font-size: 0.82rem; color: var(--db-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.db-sidebar__logout { font-size: 0.75rem; color: var(--db-ink-3); }
+.db-sidebar__logout:hover { color: var(--db-ink-2); text-decoration: none; }
+
+/* ---- Slim top bar (app mode) ---- */
+.db-shell--app .db-topbar {
+  gap: 1rem;
+  background: var(--db-bg);
+  padding: 1.1rem 1.75rem;
+}
+.db-topbar__title {
+  font-family: var(--db-font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.db-topbar__actions { margin-left: auto; display: flex; align-items: center; gap: 0.7rem; }
+
+/* Kill the core page-title block dup if a site ever places one in app mode. */
+.db-shell--app .block-page-title-block { display: none; }
+
+/* ===================================================================== *
+ * Content queue  (/queue — views.view.moderated_content:queue)
+ * ===================================================================== */
+.view-moderated-content .view-filters {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--db-line);
+}
+.view-moderated-content .views-exposed-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.9rem;
+}
+.view-moderated-content .views-exposed-form .form-item { margin: 0; }
+.view-moderated-content .views-exposed-form label { margin-bottom: 0.3rem; }
+.view-moderated-content .views-exposed-form select,
+.view-moderated-content .views-exposed-form input[type="text"] { max-width: 15rem; }
+
+.view-moderated-content table { font-size: 0.88rem; }
+.view-moderated-content tbody td { vertical-align: middle; }
+.view-moderated-content .views-field-title a { color: var(--db-ink); font-weight: 600; }
+.view-moderated-content .views-field-title a:hover { color: var(--db-signal); text-decoration: none; }
+.view-moderated-content .views-field-type,
+.view-moderated-content .views-field-changed,
+.view-moderated-content .views-field-uid,
+.view-moderated-content .views-field-name { color: var(--db-ink-2); }
+
+/* status pill dot colours (template adds .db-pill--{draft,review,changes,live}) */
+.db-pill--changes { background: rgba(229, 100, 60, 0.18); color: var(--db-coral); }
+.db-pill--changes .db-pill__dot { background: var(--db-coral); }
+
+/* bulk-action form + operations dropbutton */
+.view-moderated-content .dropbutton-wrapper { display: inline-block; }
+.view-moderated-content .dropbutton {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.4rem;
+}
+.view-moderated-content .dropbutton a {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--db-line-2);
+  border-radius: var(--db-radius-sm);
+  color: var(--db-ink-2);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.view-moderated-content .dropbutton a:hover { border-color: var(--db-signal); color: var(--db-ink); }
+
+/* ===================================================================== *
+ * Composer  (node/add/posts, node/*/edit)
+ * ===================================================================== */
+.node-posts-form {
+  max-width: 720px;
+}
+.node-posts-form .field--name-title input {
+  max-width: 100%;
+  font-family: var(--db-font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.75rem 0.85rem;
+}
+.node-posts-form details {
+  background: var(--db-surface-1);
+  border-radius: var(--db-radius);
+}
+.node-posts-form details[open] { background: var(--db-surface-2); }
+.node-posts-form summary {
+  font-family: var(--db-font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+.node-posts-form textarea { min-height: 8rem; line-height: 1.55; }
+.node-posts-form .field--name-field-description-x textarea,
+.node-posts-form .field--name-field-description-linkedin textarea { max-width: 100%; }
+
+/* media_library widget */
+.node-posts-form .media-library-widget { border: 1px dashed var(--db-line-2); border-radius: var(--db-radius); padding: 1rem; }
+.node-posts-form .media-library-item { border-radius: var(--db-radius-sm); overflow: hidden; }
+
+/* sticky action bar */
+.node-posts-form .form-actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding: 1rem 0;
+  background: linear-gradient(to top, var(--db-bg) 70%, transparent);
+}
+
+/* moderation state select on the form */
+.node-posts-form #edit-moderation-state-0,
+.node-posts-form .field--name-moderation-state { margin-bottom: 1rem; }
+
+/* The social-preview button row (pseudo-field on the node view) already ships
+ * its own scoped CSS; just give it breathing room inside the dark shell. */
+.social-preview-links { margin: 1.5rem 0; }
+
+/* ===================================================================== *
+ * Responsive
+ * ===================================================================== */
+@media (max-width: 1000px) {
+  .db-shell--app { flex-direction: column; }
+  .db-sidebar {
+    width: 100%;
+    flex-basis: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--db-line);
+    padding: 0.85rem 1.1rem;
+  }
+  .db-sidebar__nav { flex: 1; }
+  .db-sidebar__nav ul { flex-direction: row; flex-wrap: wrap; }
+  .db-sidebar__me { margin-left: auto; }
+}
+
+@media (max-width: 700px) {
+  .db-shell--app .db-topbar { flex-wrap: wrap; padding: 0.9rem 1.1rem; }
+  .db-topbar__actions { margin-left: 0; }
+  .view-moderated-content { overflow-x: auto; }
+}

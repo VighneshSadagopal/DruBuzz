@@ -1,0 +1,13 @@
+drubuzz_ai.settings:
+  type: config_object
+  label: 'DruBuzz AI settings'
+  mapping:
+    system_prompt:
+      type: text
+      label: 'System prompt'
+    examples:
+      type: text
+      label: 'Example posts (few-shot context)'
+    model_override:
+      type: string
+      label: 'Model override'

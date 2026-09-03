@@ -1,0 +1,34 @@
+{#
+/**
+ * @file
+ * Mastodon "toot" layout. Same shared body as X (field_description_x) but with
+ * a fuller @user@instance handle, a rounded-square avatar and the reply / boost
+ * / favourite / bookmark / share action bar. Default toot limit is 500.
+ */
+#}
+{% import '@drubuzz_social_preview/_icons.html.twig' as icons %}
+
+<article class="sp sp--mastodon">
+  <div class="m-post">
+    <div class="m-post__head">
+      {% include '@drubuzz_social_preview/_avatar.html.twig' with { post: post, modifier: 'sp-avatar--rounded' } %}
+      <div class="m-post__id">
+        <span class="m-post__name">{{ post.author_name }}</span>
+        <span class="m-post__handle">{{ post.handle }}</span>
+      </div>
+      <time class="m-post__time" datetime="{{ post.datetime }}">{{ post.timestamp }}</time>
+    </div>
+    <div class="m-post__body">{{ post.body|nl2br }}</div>
+    {% if post.image %}
+      <div class="m-post__media">{{ post.image }}</div>
+    {% endif %}
+    <div class="m-post__actions">
+      <span class="m-post__action">{{ icons.ui('reply') }}</span>
+      <span class="m-post__action">{{ icons.ui('repost') }}</span>
+      <span class="m-post__action">{{ icons.ui('heart') }}</span>
+      <span class="m-post__action">{{ icons.ui('bookmark') }}</span>
+      <span class="m-post__action">{{ icons.ui('share') }}</span>
+    </div>
+  </div>
+</article>
+{% include '@drubuzz_social_preview/_meta.html.twig' with { post: post } %}

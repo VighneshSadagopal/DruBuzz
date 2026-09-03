@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * Facebook feed post: 40px circular avatar, bold name, "time · globe", body,
+ * full-width media, a reaction-pill count row, then the Like / Comment / Share
+ * bar. Body comes from field_description_linkedin.
+ */
+#}
+{% import '@drubuzz_social_preview/_icons.html.twig' as icons %}
+
+<article class="sp sp--facebook">
+  <div class="fb-post">
+    <header class="fb-post__head">
+      {% include '@drubuzz_social_preview/_avatar.html.twig' with { post: post, modifier: 'sp-avatar--round' } %}
+      <div class="fb-post__id">
+        <span class="fb-post__name">{{ post.author_name }}</span>
+        <span class="fb-post__meta">
+          <time datetime="{{ post.datetime }}">{{ post.timestamp }}</time>
+          <span class="fb-post__sep">·</span>{{ icons.ui('globe') }}
+        </span>
+      </div>
+      <span class="fb-post__more">···</span>
+    </header>
+
+    <div class="fb-post__body">{{ post.body|nl2br }}</div>
+
+    {% if post.image %}
+      <div class="fb-post__media">{{ post.image }}</div>
+    {% endif %}
+
+    <div class="fb-post__stats">
+      <span class="fb-pill" aria-hidden="true">
+        <span class="fb-pill__like">{{ icons.ui('thumb') }}</span>
+        <span class="fb-pill__heart">{{ icons.ui('heart') }}</span>
+      </span>
+    </div>
+
+    <div class="fb-post__actions">
+      <span class="fb-post__action">{{ icons.ui('thumb') }}<span>{{ 'Like'|t }}</span></span>
+      <span class="fb-post__action">{{ icons.ui('comment') }}<span>{{ 'Comment'|t }}</span></span>
+      <span class="fb-post__action">{{ icons.ui('share') }}<span>{{ 'Share'|t }}</span></span>
+    </div>
+  </div>
+</article>
+{% include '@drubuzz_social_preview/_meta.html.twig' with { post: post } %}

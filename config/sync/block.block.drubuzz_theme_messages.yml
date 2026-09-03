@@ -1,0 +1,22 @@
+uuid: b67d1d1d-7f03-45e8-ab21-6b547f0977af
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - drubuzz_theme
+_core:
+  default_config_hash: LKjWV3MPDapf6G-q0xg2MZNR-MSfU4j5J3qUe6xbmWM
+id: drubuzz_theme_messages
+theme: drubuzz_theme
+region: highlighted
+weight: -5
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

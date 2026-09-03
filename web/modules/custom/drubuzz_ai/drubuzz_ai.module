@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * @file
+ * Adds a "Generate with AI" panel to the Posts add/edit form.
+ *
+ * The panel only writes field_description_x and field_description_linkedin;
+ * everything else on the form is left to the editor.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for node_form.
+ */
+function drubuzz_ai_form_node_form_alter(array &$form, FormStateInterface $form_state): void {
+  $node = $form_state->getFormObject()->getEntity();
+  if ($node->bundle() !== 'posts') {
+    return;
+  }
+  if (!\Drupal::currentUser()->hasPermission('generate post content with ai')) {
+    return;
+  }
+  // Nothing to target if the description fields are not on this form.
+  if (!isset($form['field_description_x']) && !isset($form['field_description_linkedin'])) {
+    return;
+  }
+
+  $form['drubuzz_ai'] = [
+    '#type' => 'details',
+    '#title' => t('Generate with AI'),
+    '#open' => $node->isNew(),
+    '#weight' => -2,
+    '#attributes' => ['class' => ['drubuzz-ai']],
+  ];
+  $form['drubuzz_ai']['intro'] = [
+    '#markup' => '<p class="drubuzz-ai__intro">' . t('Describe the post idea. AI drafts the <strong>X / Mastodon</strong> and <strong>LinkedIn / Facebook / Instagram</strong> copy only — review and edit it below. The title, body, media and schedule stay yours.') . '</p>',
+  ];
+  $form['drubuzz_ai']['idea'] = [
+    '#type' => 'textarea',
+    '#title' => t('Post idea'),
+    '#title_display' => 'invisible',
+    '#rows' => 3,
+    '#placeholder' => t('e.g. Early-bird tickets for DrupalCon close Friday — session line-up just dropped, headline talk on AI in the CMS.'),
+    '#wrapper_attributes' => ['class' => ['drubuzz-ai__idea-wrap']],
+    '#attributes' => ['class' => ['drubuzz-ai__idea']],
+    // Not part of the node entity — don't let it be flagged as an unknown value.
+    '#parents' => ['drubuzz_ai_idea'],
+  ];
+  $form['drubuzz_ai']['go'] = [
+    '#type' => 'html_tag',
+    '#tag' => 'button',
+    '#value' => t('Generate copy'),
+    '#attributes' => [
+      'type' => 'button',
+      'class' => ['button', 'button--primary', 'drubuzz-ai__go'],
+    ],
+  ];
+  $form['drubuzz_ai']['status'] = [
+    '#type' => 'html_tag',
+    '#tag' => 'p',
+    '#value' => '',
+    '#attributes' => ['class' => ['drubuzz-ai__status'], 'aria-live' => 'polite'],
+  ];
+
+  $form['#attached']['library'][] = 'drubuzz_ai/form';
+  $form['#attached']['drupalSettings']['drubuzzAi'] = [
+    // RouteProcessorCsrf appends the ?token= that _csrf_token expects.
+    'url' => Url::fromRoute('drubuzz_ai.generate')->toString(),
+    'nid' => $node->isNew() ? NULL : (int) $node->id(),
+    'selectors' => [
+      'x' => '[name="field_description_x[0][value]"]',
+      'linkedin' => '[name="field_description_linkedin[0][value]"]',
+    ],
+  ];
+}

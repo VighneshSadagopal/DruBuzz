@@ -1,0 +1,99 @@
+<?php
+
+/**
+ * @file
+ * Install / update hooks for DruBuzz Calendar Tooltip.
+ *
+ * Adds field_post to the Event content type: each calendar event references the
+ * one social Post it publishes. The calendar hover card links to that post (or,
+ * when empty, to the Post creation form).
+ */
+
+declare(strict_types=1);
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_install().
+ */
+function drubuzz_calendar_tooltip_install(): void {
+  _drubuzz_calendar_tooltip_ensure_fields();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function drubuzz_calendar_tooltip_uninstall(): void {
+  if ($field = FieldConfig::loadByName('node', 'event', 'field_post')) {
+    $field->delete();
+  }
+  if ($storage = FieldStorageConfig::loadByName('node', 'field_post')) {
+    $storage->delete();
+  }
+}
+
+/**
+ * Add field_post (Event → Post reference).
+ */
+function drubuzz_calendar_tooltip_update_10001(): string {
+  _drubuzz_calendar_tooltip_ensure_fields();
+  return 'Added the "Post" reference field to the Event content type.';
+}
+
+/**
+ * Creates field_post on node.event and puts it on the event edit form.
+ */
+function _drubuzz_calendar_tooltip_ensure_fields(): void {
+  if (!FieldStorageConfig::loadByName('node', 'field_post')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_post',
+      'entity_type' => 'node',
+      'type' => 'entity_reference',
+      'settings' => ['target_type' => 'node'],
+      'cardinality' => 1,
+    ])->save();
+  }
+
+  if (!FieldConfig::loadByName('node', 'event', 'field_post')) {
+    FieldConfig::create([
+      'field_name' => 'field_post',
+      'entity_type' => 'node',
+      'bundle' => 'event',
+      'label' => 'Post',
+      'description' => 'The social post this calendar event publishes. Shown as a link on the calendar hover card.',
+      'required' => FALSE,
+      'settings' => [
+        'handler' => 'default:node',
+        'handler_settings' => [
+          'target_bundles' => ['posts' => 'posts'],
+          'sort' => ['field' => 'title', 'direction' => 'ASC'],
+          'auto_create' => FALSE,
+        ],
+      ],
+    ])->save();
+  }
+
+  $repository = \Drupal::service('entity_display.repository');
+
+  $form_display = $repository->getFormDisplay('node', 'event', 'default');
+  if ($form_display && !$form_display->getComponent('field_post')) {
+    $form_display->setComponent('field_post', [
+      'type' => 'entity_reference_autocomplete',
+      'weight' => 5,
+      'region' => 'content',
+      'settings' => ['match_operator' => 'CONTAINS', 'match_limit' => 10, 'size' => 60, 'placeholder' => ''],
+    ])->save();
+  }
+
+  $view_display = $repository->getViewDisplay('node', 'event', 'default');
+  if ($view_display && !$view_display->getComponent('field_post')) {
+    $view_display->setComponent('field_post', [
+      'type' => 'entity_reference_label',
+      'label' => 'inline',
+      'weight' => 5,
+      'region' => 'content',
+      'settings' => ['link' => TRUE],
+    ])->save();
+  }
+}

@@ -1,0 +1,519 @@
+/**
+ * @file
+ * DruBuzz design system — warm near-black editorial console.
+ *
+ * Loaded site-wide. Sections:
+ *   1. Tokens
+ *   2. Reset + base elements
+ *   3. Typography
+ *   4. Components (buttons, chips, pills, cards)
+ *   5. Page chrome (shell, topbar, sidebar, footer)
+ *   6. Drupal element overrides (menus, tabs, tables, forms, messages)
+ *   7. Responsive
+ */
+
+/* ===================================================================== *
+ * 1. Tokens
+ * ===================================================================== */
+:root {
+  --db-bg: #141210;
+  --db-surface-1: #191512;
+  --db-surface-2: #1e1b17;
+  --db-surface-3: #221e18;
+
+  --db-line: rgba(255, 255, 255, 0.07);
+  --db-line-2: rgba(255, 255, 255, 0.14);
+
+  --db-ink: #f4efe6;
+  --db-ink-2: #a89f90;
+  --db-ink-3: #6f665a;
+
+  --db-signal: #cdf23a;
+  --db-signal-ink: #141210;
+  --db-signal-hover: #e6ff8a;
+
+  --db-amber: #e0a43b;   /* in review  */
+  --db-blue: #7cb8ff;    /* scheduled  */
+  --db-coral: #e5643c;   /* over limit / danger */
+
+  --db-radius-sm: 8px;
+  --db-radius: 12px;
+  --db-radius-lg: 16px;
+  --db-radius-pill: 999px;
+
+  --db-font-display: "Bricolage Grotesque", "Trebuchet MS", Verdana, sans-serif;
+  --db-font-body: "Hanken Grotesk", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+
+  --db-shell-max: 1216px;
+  --db-sidebar-w: 240px;
+
+  color-scheme: dark;
+}
+
+/* ===================================================================== *
+ * 2. Reset + base
+ * ===================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--db-bg);
+  color: var(--db-ink);
+  font-family: var(--db-font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg, video { max-width: 100%; height: auto; display: block; }
+
+hr { border: 0; border-top: 1px solid var(--db-line); margin: 2rem 0; }
+
+::selection { background: var(--db-signal); color: var(--db-signal-ink); }
+
+:focus-visible { outline: 2px solid var(--db-signal); outline-offset: 2px; border-radius: 3px; }
+
+/* ===================================================================== *
+ * 3. Typography
+ * ===================================================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--db-font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0 0 0.6em;
+  color: var(--db-ink);
+  text-wrap: balance;
+}
+
+h1 { font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.6rem); }
+h2 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
+h3 { font-size: 1.2rem; }
+
+p { margin: 0 0 1rem; text-wrap: pretty; }
+
+a { color: var(--db-signal); text-decoration: none; }
+a:hover { color: var(--db-signal-hover); text-decoration: underline; }
+
+small { color: var(--db-ink-2); }
+
+code, pre, kbd {
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+pre {
+  background: var(--db-surface-2);
+  border: 1px solid var(--db-line);
+  border-radius: var(--db-radius);
+  padding: 1rem;
+  overflow-x: auto;
+}
+blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--db-line-2);
+  color: var(--db-ink-2);
+}
+
+/* ===================================================================== *
+ * 4. Components
+ * ===================================================================== */
+
+/* Buttons — also skins Drupal's .button / input[type=submit] */
+.db-btn,
+.button,
+button.button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--db-radius-sm);
+  border: 1px solid var(--db-line-2);
+  background: transparent;
+  color: var(--db-ink);
+  font-family: var(--db-font-body);
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.05s ease;
+}
+.db-btn:hover,
+.button:hover,
+input[type="submit"]:hover {
+  border-color: var(--db-signal);
+  color: var(--db-ink);
+  text-decoration: none;
+}
+.db-btn:active,
+.button:active,
+input[type="submit"]:active { transform: translateY(1px); }
+
+.db-btn--primary,
+.button--primary,
+input[type="submit"].button--primary,
+input#edit-submit,
+input#edit-preview {
+  background: var(--db-signal);
+  border-color: var(--db-signal);
+  color: var(--db-signal-ink);
+}
+.db-btn--primary:hover,
+.button--primary:hover,
+input[type="submit"].button--primary:hover {
+  background: var(--db-signal-hover);
+  border-color: var(--db-signal-hover);
+  color: var(--db-signal-ink);
+}
+.db-btn svg,
+.db-btn__icon { width: 1rem; height: 1rem; }
+
+/* Chip — filter / toggle pill */
+.db-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--db-radius-pill);
+  border: 1px solid var(--db-line-2);
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--db-ink-2);
+  cursor: pointer;
+}
+.db-chip.is-active { background: var(--db-ink); color: var(--db-signal-ink); border-color: var(--db-ink); }
+.db-chip__dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; }
+
+/* Status pill */
+.db-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--db-radius-pill);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.db-pill__dot { width: 6px; height: 6px; border-radius: 50%; }
+.db-pill--draft  { background: rgba(168, 159, 144, 0.16); color: #c7bda9; }
+.db-pill--review { background: rgba(224, 164, 59, 0.18); color: var(--db-amber); }
+.db-pill--sched  { background: rgba(124, 184, 255, 0.16); color: var(--db-blue); }
+.db-pill--live   { background: rgba(205, 242, 58, 0.18); color: var(--db-signal); }
+
+/* Card */
+.db-card {
+  background: var(--db-surface-2);
+  border: 1px solid var(--db-line);
+  border-radius: var(--db-radius-lg);
+  padding: 1.25rem;
+}
+
+/* Wordmark */
+.db-brand { display: inline-flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--db-ink); }
+.db-brand:hover { text-decoration: none; color: var(--db-ink); }
+.db-brand__mark {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--db-signal);
+  box-shadow: 0 0 0 4px rgba(205, 242, 58, 0.16);
+  flex: 0 0 auto;
+}
+.db-brand__name {
+  font-family: var(--db-font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.035em;
+}
+
+/* ===================================================================== *
+ * 5. Page chrome
+ * ===================================================================== */
+.db-shell { display: flex; flex-direction: column; min-height: 100vh; }
+
+.db-topbar {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 1rem 1.75rem;
+  border-bottom: 1px solid var(--db-line);
+  background: var(--db-surface-1);
+}
+.db-topbar__nav { margin-left: auto; }
+
+.db-body { display: flex; flex: 1; min-height: 0; }
+
+.db-sidebar {
+  width: var(--db-sidebar-w);
+  flex: 0 0 var(--db-sidebar-w);
+  border-right: 1px solid var(--db-line);
+  background: var(--db-surface-1);
+  padding: 1.5rem 1rem;
+}
+
+.db-main {
+  flex: 1;
+  min-width: 0;
+  padding: 1.75rem;
+  max-width: var(--db-shell-max);
+  margin: 0 auto;
+  width: 100%;
+}
+.db-shell--with-sidebar .db-main { margin: 0; max-width: none; }
+
+.db-page-title { margin-bottom: 1.25rem; }
+
+.db-footer {
+  border-top: 1px solid var(--db-line);
+  padding: 2rem 1.75rem;
+  color: var(--db-ink-2);
+  font-size: 0.85rem;
+}
+
+/* ===================================================================== *
+ * 6. Drupal element overrides
+ * ===================================================================== */
+
+/* Primary menu / any menu block */
+.db-topbar__nav nav { display: block; }
+.db-topbar__nav h2 { margin: 0; }
+.db-topbar__nav ul,
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+.db-topbar__nav a,
+.menu__link {
+  color: var(--db-ink-2);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.db-topbar__nav a:hover,
+.menu__link:hover,
+.db-topbar__nav a.is-active,
+.menu__link.is-active { color: var(--db-ink); text-decoration: none; }
+
+/* ---- Local tasks (View / Edit / … tabs) ---- */
+.db-tabs { margin: 0 0 1.5rem; }
+.db-tabs + .db-tabs { margin-top: -1rem; }
+
+.db-tabs__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  border-bottom: 1px solid var(--db-line);
+}
+.db-tabs__item { margin: 0; }
+.db-tabs__item a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.9rem;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  border-radius: var(--db-radius-sm) var(--db-radius-sm) 0 0;
+  color: var(--db-ink-2);
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1;
+  text-decoration: none;
+}
+.db-tabs__item a:hover,
+.db-tabs__item a:focus {
+  color: var(--db-ink);
+  background: rgba(255, 255, 255, 0.04);
+  text-decoration: none;
+}
+.db-tabs__item.is-active a,
+.db-tabs__item a.is-active {
+  color: var(--db-ink);
+  border-bottom-color: var(--db-signal);
+}
+
+/* Secondary tasks read as a lighter pill row. */
+.db-tabs__list--secondary {
+  border-bottom: 0;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+.db-tabs__list--secondary .db-tabs__item a {
+  margin-bottom: 0;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--db-line-2);
+  border-radius: var(--db-radius-pill);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.db-tabs__list--secondary .db-tabs__item.is-active a {
+  background: var(--db-ink);
+  color: var(--db-signal-ink);
+  border-color: var(--db-ink);
+}
+
+/* Fallback: any module still emitting the class-less core markup. */
+nav.tabs ul,
+.tabs > ul,
+ul.tabs {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem;
+  border-bottom: 1px solid var(--db-line);
+}
+nav.tabs a,
+.tabs a {
+  display: inline-flex;
+  padding: 0.55rem 0.9rem;
+  color: var(--db-ink-2);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+nav.tabs a:hover,
+.tabs a:hover { color: var(--db-ink); }
+.tabs .is-active a,
+.tabs a.is-active { color: var(--db-ink); border-bottom-color: var(--db-signal); }
+
+/* Action links ("Add content" etc.) */
+.action-links {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.action-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--db-radius-sm);
+  background: var(--db-signal);
+  color: var(--db-signal-ink);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+/* Messages */
+.messages,
+.messages-list__item {
+  border: 1px solid var(--db-line-2);
+  border-radius: var(--db-radius);
+  background: var(--db-surface-2);
+  color: var(--db-ink);
+  padding: 0.9rem 1.1rem;
+  margin: 0 0 1rem;
+}
+.messages--status { border-color: rgba(205, 242, 58, 0.4); }
+.messages--warning { border-color: rgba(224, 164, 59, 0.5); }
+.messages--error { border-color: rgba(229, 100, 60, 0.6); }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+th {
+  text-align: left;
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid var(--db-line-2);
+  color: var(--db-ink-2);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+td { padding: 0.85rem; border-bottom: 1px solid var(--db-line); }
+tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+/* Forms */
+label { display: block; font-weight: 700; font-size: 0.8rem; color: var(--db-ink-2); margin-bottom: 0.35rem; }
+input[type="text"], input[type="email"], input[type="password"], input[type="search"],
+input[type="url"], input[type="tel"], input[type="number"], input[type="date"],
+input[type="datetime-local"], input[type="time"], select, textarea {
+  width: 100%;
+  max-width: 34rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--db-radius-sm);
+  border: 1px solid var(--db-line-2);
+  background: var(--db-surface-1);
+  color: var(--db-ink);
+  font-family: var(--db-font-body);
+  font-size: 0.9rem;
+}
+input::placeholder, textarea::placeholder { color: var(--db-ink-3); }
+.form-item { margin: 0 0 1.1rem; }
+.description, .form-item__description { color: var(--db-ink-3); font-size: 0.8rem; margin-top: 0.35rem; }
+fieldset {
+  border: 1px solid var(--db-line);
+  border-radius: var(--db-radius);
+  padding: 1rem 1.1rem;
+  margin: 0 0 1.25rem;
+}
+legend { padding: 0 0.4rem; font-family: var(--db-font-display); font-weight: 800; }
+
+/* details / field_group */
+details {
+  border: 1px solid var(--db-line);
+  border-radius: var(--db-radius);
+  margin: 0 0 1rem;
+  background: var(--db-surface-1);
+}
+summary { padding: 0.8rem 1rem; font-weight: 700; cursor: pointer; }
+details > div { padding: 0 1rem 1rem; }
+
+/* Node / article */
+article { margin: 0 0 1.5rem; }
+.field--label-inline .field__label { display: inline; margin-right: 0.4rem; }
+.field__label { color: var(--db-ink-2); }
+
+/* Pager */
+.pager__items { list-style: none; display: flex; gap: 0.4rem; padding: 0; justify-content: center; }
+.pager__item a {
+  display: inline-flex; padding: 0.4rem 0.7rem;
+  border: 1px solid var(--db-line-2); border-radius: var(--db-radius-sm);
+  color: var(--db-ink-2); text-decoration: none;
+}
+.pager__item.is-active a { background: var(--db-ink); color: var(--db-signal-ink); border-color: var(--db-ink); }
+
+/* Breadcrumb */
+.breadcrumb { color: var(--db-ink-3); font-size: 0.8rem; margin-bottom: 1rem; }
+.breadcrumb ol { list-style: none; display: flex; gap: 0.5rem; padding: 0; margin: 0; }
+
+/* ===================================================================== *
+ * 7. Responsive
+ * ===================================================================== */
+@media (max-width: 1000px) {
+  .db-body { flex-direction: column; }
+  .db-sidebar {
+    width: 100%;
+    flex-basis: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--db-line);
+  }
+  .db-shell--with-sidebar .db-main { max-width: 100%; }
+}
+
+@media (max-width: 700px) {
+  .db-topbar { flex-wrap: wrap; gap: 0.9rem; padding: 0.85rem 1.1rem; }
+  .db-topbar__nav { margin-left: 0; width: 100%; }
+  .db-main { padding: 1.1rem; }
+  body { font-size: 14px; }
+}

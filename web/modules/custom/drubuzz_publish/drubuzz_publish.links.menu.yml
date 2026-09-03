@@ -1,0 +1,5 @@
+drubuzz_publish.settings:
+  title: 'DruBuzz Publish'
+  description: 'Connect LinkedIn / X accounts and configure API publishing.'
+  route_name: drubuzz_publish.settings
+  parent: system.admin_config_services

@@ -1,0 +1,25 @@
+services:
+  drubuzz_publish.token_store:
+    class: Drupal\drubuzz_publish\TokenStore
+    arguments:
+      - '@state'
+      - '@config.factory'
+      - '@http_client'
+      - '@datetime.time'
+      - '@logger.channel.drubuzz_publish'
+
+  drubuzz_publish.publisher:
+    class: Drupal\drubuzz_publish\SocialPublisher
+    arguments:
+      - '@drubuzz_publish.token_store'
+      - '@http_client'
+      - '@file_system'
+      - '@entity_type.manager'
+      - '@datetime.time'
+      - '@database'
+      - '@logger.channel.drubuzz_publish'
+      - '@config.factory'
+
+  logger.channel.drubuzz_publish:
+    parent: logger.channel_base
+    arguments: ['drubuzz_publish']

@@ -1,0 +1,48 @@
+{#
+/**
+ * @file
+ * Inline tabbed preview on a Posts node page. One tab per platform; the first
+ * (LinkedIn) is selected by default. Progressive enhancement: with JS off every
+ * panel except the default is [hidden]; social-preview-tabs.js wires the
+ * tablist (click + arrow keys) and toggles panels.
+ *
+ * Available variables:
+ * - tabs: list of { platform, label, content }.
+ * - default: machine name of the platform shown first.
+ */
+#}
+{% import '@drubuzz_social_preview/_icons.html.twig' as icons %}
+
+<div class="sp-tabs" data-sp-tabs>
+  <div class="sp-tabs__list" role="tablist" aria-label="{{ 'Post previews by platform'|t }}">
+    {% for tab in tabs %}
+      {% set active = tab.platform == default %}
+      <button
+        type="button"
+        role="tab"
+        id="sp-tab--{{ tab.platform }}"
+        class="sp-tabs__tab sp-tabs__tab--{{ tab.platform }}{{ active ? ' is-active' : '' }}"
+        aria-controls="sp-panel--{{ tab.platform }}"
+        aria-selected="{{ active ? 'true' : 'false' }}"
+        tabindex="{{ active ? '0' : '-1' }}"
+      >
+        <span class="sp-tabs__icon">{{ icons.brand(tab.platform) }}</span>
+        <span class="sp-tabs__label">{{ tab.label }}</span>
+      </button>
+    {% endfor %}
+  </div>
+
+  {% for tab in tabs %}
+    {% set active = tab.platform == default %}
+    <div
+      role="tabpanel"
+      id="sp-panel--{{ tab.platform }}"
+      class="sp-tabs__panel{{ active ? ' is-active' : '' }}"
+      aria-labelledby="sp-tab--{{ tab.platform }}"
+      tabindex="0"
+      {{ active ? '' : 'hidden' }}
+    >
+      {{ tab.content }}
+    </div>
+  {% endfor %}
+</div>

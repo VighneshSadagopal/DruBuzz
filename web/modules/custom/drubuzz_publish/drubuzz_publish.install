@@ -1,0 +1,139 @@
+<?php
+
+/**
+ * @file
+ * Install / uninstall hooks for DruBuzz Publish.
+ *
+ * Creates a delivery-log table and adds two fields to the Posts content type:
+ *  - field_publish_at       (datetime)  — when cron should send the post.
+ *  - field_publish_channels (list_string, multi) — linkedin / x targets.
+ */
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_schema().
+ */
+function drubuzz_publish_schema(): array {
+  $schema['drubuzz_publish_item'] = [
+    'description' => 'One delivery attempt of a Posts node to one platform.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE],
+      'nid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'platform' => ['type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''],
+      'status' => ['type' => 'varchar', 'length' => 16, 'not null' => TRUE, 'default' => 'pending'],
+      'attempts' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'remote_id' => ['type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''],
+      'remote_url' => ['type' => 'varchar', 'length' => 512, 'not null' => TRUE, 'default' => ''],
+      'message' => ['type' => 'text', 'size' => 'big', 'not null' => FALSE],
+      'created' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'changed' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'nid' => ['nid'],
+      'nid_platform' => ['nid', 'platform'],
+      'status' => ['status'],
+    ],
+  ];
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function drubuzz_publish_install(): void {
+  _drubuzz_publish_ensure_fields();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function drubuzz_publish_uninstall(): void {
+  // Remove the added fields.
+  foreach (['field_publish_at', 'field_publish_channels'] as $field_name) {
+    if ($field = FieldConfig::loadByName('node', 'posts', $field_name)) {
+      $field->delete();
+    }
+    if ($storage = FieldStorageConfig::loadByName('node', $field_name)) {
+      $storage->delete();
+    }
+  }
+
+  // Drop stored secrets and tokens.
+  \Drupal::state()->deleteMultiple([
+    'drubuzz_publish.linkedin.client_secret',
+    'drubuzz_publish.x.client_secret',
+    'drubuzz_publish.tokens.linkedin',
+    'drubuzz_publish.tokens.x',
+  ]);
+}
+
+/**
+ * Creates field_publish_at and field_publish_channels on node.posts.
+ */
+function _drubuzz_publish_ensure_fields(): void {
+  if (!FieldStorageConfig::loadByName('node', 'field_publish_at')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_publish_at',
+      'entity_type' => 'node',
+      'type' => 'datetime',
+      'settings' => ['datetime_type' => 'datetime'],
+      'cardinality' => 1,
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'posts', 'field_publish_at')) {
+    FieldConfig::create([
+      'field_name' => 'field_publish_at',
+      'entity_type' => 'node',
+      'bundle' => 'posts',
+      'label' => 'Publish at',
+      'description' => 'When DruBuzz should send this post to the connected social accounts. Leave empty to keep it manual.',
+      'required' => FALSE,
+    ])->save();
+  }
+
+  if (!FieldStorageConfig::loadByName('node', 'field_publish_channels')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_publish_channels',
+      'entity_type' => 'node',
+      'type' => 'list_string',
+      'cardinality' => -1,
+      'settings' => [
+        'allowed_values' => [
+          'linkedin' => 'LinkedIn',
+          'x' => 'X',
+        ],
+      ],
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'posts', 'field_publish_channels')) {
+    FieldConfig::create([
+      'field_name' => 'field_publish_channels',
+      'entity_type' => 'node',
+      'bundle' => 'posts',
+      'label' => 'Publish to',
+      'description' => 'Which connected networks this post should go to. If left empty, DruBuzz sends to every connected network that has body text for it.',
+      'required' => FALSE,
+    ])->save();
+  }
+
+  // Surface both fields on the default Posts edit form.
+  $form_display = \Drupal::service('entity_display.repository')
+    ->getFormDisplay('node', 'posts', 'default');
+  if ($form_display && !$form_display->getComponent('field_publish_at')) {
+    $form_display
+      ->setComponent('field_publish_at', [
+        'type' => 'datetime_default',
+        'weight' => 40,
+        'region' => 'content',
+      ])
+      ->setComponent('field_publish_channels', [
+        'type' => 'options_buttons',
+        'weight' => 41,
+        'region' => 'content',
+      ])
+      ->save();
+  }
+}

@@ -1,0 +1,122 @@
+/**
+ * @file
+ * Styling for the Events Calendar hover tooltip.
+ */
+
+.fc-event {
+  cursor: pointer;
+}
+
+.fc-tooltip {
+  position: absolute;
+  z-index: 1000;
+  width: 400px;
+  max-width: calc(100vw - 24px);
+  padding: 0.875rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #000;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+  /* Interactive: the pointer can move onto it to click "Open / Create post". */
+  pointer-events: auto;
+}
+
+.fc-tooltip__title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.fc-tooltip__category {
+  display: inline-block;
+  padding: 0.0625rem 0.5rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.fc-tooltip__body {
+  margin-top: 0.625rem;
+  max-height: 16rem;
+  overflow-y: auto;
+  color: #333;
+}
+
+.fc-tooltip__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.625rem;
+  margin-top: 0.875rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.fc-tooltip__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  background: #0f1419;
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.fc-tooltip__btn:hover,
+.fc-tooltip__btn:focus {
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+}
+
+.fc-tooltip__btn--new {
+  background: #10b981;
+}
+
+.fc-tooltip__btn--new:hover,
+.fc-tooltip__btn--new:focus {
+  background: #059669;
+}
+
+.fc-tooltip__postmeta {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+/*
+ * The body markup is the themed field output (`.text-content`, `<p>` …), whose
+ * font-size is set by the theme with higher specificity than a single class.
+ * Force every descendant so the tooltip controls the size.
+ */
+.fc-tooltip .fc-tooltip__body,
+.fc-tooltip .fc-tooltip__body * {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.fc-tooltip .fc-tooltip__body > :first-child {
+  margin-top: 0;
+}
+
+.fc-tooltip .fc-tooltip__body > :last-child {
+  margin-bottom: 0;
+}
+
+.fc-tooltip .fc-tooltip__body p {
+  margin: 0 0 0.5rem;
+}

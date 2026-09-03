@@ -1,0 +1,24 @@
+uuid: 7d51bdb8-ced7-4846-8603-97e58e9ff7da
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_body
+    - filter.format.full_html
+    - node.type.posts
+  module:
+    - text
+id: node.posts.field_body
+field_name: field_body
+entity_type: node
+bundle: posts
+label: Body
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text_long

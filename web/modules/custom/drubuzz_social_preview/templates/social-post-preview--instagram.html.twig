@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * Instagram feed post: compact "avatar username · time ···" header, the image as
+ * the hero (Instagram requires one), the heart / comment / share + bookmark
+ * action row, then "username caption" and "View all comments". Caption comes
+ * from field_description_linkedin.
+ */
+#}
+{% import '@drubuzz_social_preview/_icons.html.twig' as icons %}
+
+<article class="sp sp--instagram">
+  <div class="ig-post">
+    <header class="ig-post__head">
+      <span class="ig-post__ring">
+        {% include '@drubuzz_social_preview/_avatar.html.twig' with { post: post, modifier: 'sp-avatar--round sp-avatar--sm' } %}
+      </span>
+      <span class="ig-post__user">{{ post.username }}</span>
+      <span class="ig-post__sep">·</span>
+      <time class="ig-post__time" datetime="{{ post.datetime }}">{{ post.timestamp }}</time>
+      <span class="ig-post__more">···</span>
+    </header>
+
+    {% if post.image %}
+      <div class="ig-post__media">{{ post.image }}</div>
+    {% else %}
+      <div class="ig-post__media ig-post__media--empty">
+        {{ 'Instagram needs a graphic. Add one in the Media section of the post.'|t }}
+      </div>
+    {% endif %}
+
+    <div class="ig-post__actions">
+      <span class="ig-post__action">{{ icons.ui('heart') }}</span>
+      <span class="ig-post__action">{{ icons.ui('comment') }}</span>
+      <span class="ig-post__action">{{ icons.ui('send') }}</span>
+      <span class="ig-post__action ig-post__action--end">{{ icons.ui('bookmark') }}</span>
+    </div>
+
+    <div class="ig-post__caption">
+      <span class="ig-post__user">{{ post.username }}</span> {{ post.body|nl2br }}
+    </div>
+    <div class="ig-post__comments">{{ 'View all comments'|t }}</div>
+  </div>
+</article>
+{% include '@drubuzz_social_preview/_meta.html.twig' with { post: post } %}

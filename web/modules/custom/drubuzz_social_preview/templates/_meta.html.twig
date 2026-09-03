@@ -1,0 +1,13 @@
+{#
+/**
+ * @file
+ * Character budget line shown under every preview so editors can see whether the
+ * shared description fits the platform they are looking at.
+ */
+#}
+<div class="sp-meta{{ post.over_limit ? ' is-over' : '' }}">
+  <span class="sp-meta__count">{{ post.char_count }} / {{ post.char_limit }}</span>
+  <span class="sp-meta__unit">characters</span>
+  {% if post.over_limit %}<span class="sp-meta__warn">{{ 'Too long for @p'|t({'@p': post.platform_label}) }}</span>{% endif %}
+  <a class="sp-meta__link" href="{{ post.url }}">{{ 'View node'|t }}</a>
+</div>

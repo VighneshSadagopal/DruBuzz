@@ -1,0 +1,27 @@
+uuid: f6e607fb-914d-4aa1-a1dd-5447a915b641
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - drubuzz_theme
+_core:
+  default_config_hash: WC0fsQHGBnZt86O9P6TeuBfsaxJ4E6-rml9wYiwM8Vs
+id: drubuzz_theme_main_menu
+theme: drubuzz_theme
+region: primary_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 2
+  expand_all_items: false
+visibility: {  }

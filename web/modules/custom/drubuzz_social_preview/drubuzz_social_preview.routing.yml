@@ -1,0 +1,20 @@
+drubuzz_social_preview.settings:
+  path: '/admin/config/content/social-preview'
+  defaults:
+    _form: '\Drupal\drubuzz_social_preview\Form\SocialPreviewSettingsForm'
+    _title: 'Social preview identity'
+  requirements:
+    _permission: 'administer drubuzz social preview'
+
+drubuzz_social_preview.modal:
+  path: '/node/{node}/social-preview/{platform}'
+  defaults:
+    _controller: '\Drupal\drubuzz_social_preview\Controller\SocialPreviewController::modal'
+    _title_callback: '\Drupal\drubuzz_social_preview\Controller\SocialPreviewController::title'
+  requirements:
+    _custom_access: '\Drupal\drubuzz_social_preview\Controller\SocialPreviewController::access'
+    platform: 'x|mastodon|linkedin|facebook|instagram'
+  options:
+    parameters:
+      node:
+        type: entity:node

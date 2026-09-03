@@ -1,0 +1,65 @@
+uuid: 12b41c08-c5c4-4133-a540-cafca1cbe337
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.posts
+  module:
+    - content_moderation
+id: editorial_review
+label: 'Editorial review'
+type: content_moderation
+type_settings:
+  states:
+    changes_requested:
+      label: 'Changes Requested'
+      weight: 2
+      published: false
+      default_revision: false
+    draft:
+      label: Draft
+      weight: 0
+      published: false
+      default_revision: false
+    published:
+      label: Published
+      weight: 3
+      published: true
+      default_revision: true
+    ready_for_review:
+      label: 'Ready for Review'
+      weight: 1
+      published: false
+      default_revision: false
+  transitions:
+    create_new_draft:
+      label: 'Back to draft'
+      from:
+        - changes_requested
+        - published
+        - ready_for_review
+      to: draft
+      weight: 3
+    publish:
+      label: 'Approve & publish'
+      from:
+        - ready_for_review
+      to: published
+      weight: 2
+    request_changes:
+      label: 'Request changes'
+      from:
+        - ready_for_review
+      to: changes_requested
+      weight: 1
+    submit_for_review:
+      label: 'Submit for review'
+      from:
+        - changes_requested
+        - draft
+      to: ready_for_review
+      weight: 0
+  entity_types:
+    node:
+      - posts
+  default_moderation_state: draft

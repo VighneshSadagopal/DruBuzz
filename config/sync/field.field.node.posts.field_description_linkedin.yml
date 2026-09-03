@@ -1,0 +1,19 @@
+uuid: bf715a02-8eff-475c-8ae3-89c7824464c0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_description_linkedin
+    - node.type.posts
+id: node.posts.field_description_linkedin
+field_name: field_description_linkedin
+entity_type: node
+bundle: posts
+label: 'Description (LinkedIn / Facebook / Instagram)'
+description: 'Body text used for the LinkedIn, Facebook and Instagram posts.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

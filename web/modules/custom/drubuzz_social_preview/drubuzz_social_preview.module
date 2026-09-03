@@ -1,0 +1,107 @@
+<?php
+
+/**
+ * @file
+ * Platform-accurate social post previews for the Posts content type.
+ *
+ * The raw description/graphic fields are hidden on the node page. Instead a row
+ * of platform buttons is added as a pseudo-field; each button opens a modal that
+ * renders the post in that platform's layout (see SocialPostBuilder and the
+ * social-post-preview--*.html.twig templates).
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\drubuzz_social_preview\SocialPostBuilder;
+
+/**
+ * Implements hook_theme().
+ */
+function drubuzz_social_preview_theme(): array {
+  $hooks = [
+    'social_post_preview' => [
+      'variables' => [
+        'post' => [],
+        'platform' => '',
+      ],
+    ],
+    'social_preview_tabs' => [
+      'variables' => [
+        'tabs' => [],
+        'default' => 'linkedin',
+      ],
+    ],
+  ];
+
+  // Modules (unlike themes) do not auto-discover "base--suggestion" templates,
+  // so each platform variant is registered explicitly against the base hook.
+  foreach (array_keys(SocialPostBuilder::PLATFORMS) as $platform) {
+    $hooks['social_post_preview__' . $platform] = [
+      'base hook' => 'social_post_preview',
+      'template' => 'social-post-preview--' . $platform,
+    ];
+  }
+
+  return $hooks;
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ *
+ * Lets each platform ship its own template, e.g. social-post-preview--x.
+ */
+function drubuzz_social_preview_theme_suggestions_social_post_preview(array $variables): array {
+  $suggestions = [];
+  if (!empty($variables['platform'])) {
+    $suggestions[] = 'social_post_preview__' . $variables['platform'];
+  }
+  return $suggestions;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for node_form.
+ *
+ * Posts run through the editorial_review workflow, which always writes a new
+ * revision, so the "Revision information" section on the add/edit form is just
+ * noise for editors. Hide it on the Posts form.
+ */
+function drubuzz_social_preview_form_node_form_alter(array &$form, FormStateInterface $form_state): void {
+  $node = $form_state->getFormObject()->getEntity();
+  if (!$node->bundle()) {
+    return;
+  }
+  if (isset($form['revision_information'])) {
+    $form['revision_information']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_entity_extra_field_info().
+ */
+function drubuzz_social_preview_entity_extra_field_info(): array {
+  $extra = [];
+  $extra['node'][SocialPostBuilder::BUNDLE]['display']['social_preview_links'] = [
+    'label' => t('Social preview tabs'),
+    'description' => t('Inline tabbed preview of the post on each platform.'),
+    'weight' => -50,
+    'visible' => TRUE,
+  ];
+  return $extra;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view() for nodes.
+ */
+function drubuzz_social_preview_node_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, string $view_mode): void {
+  if ($entity->bundle() !== SocialPostBuilder::BUNDLE || !$display->getComponent('social_preview_links')) {
+    return;
+  }
+
+  /** @var \Drupal\drubuzz_social_preview\SocialPostBuilder $builder */
+  $builder = \Drupal::service('drubuzz_social_preview.builder');
+
+  $build['social_preview_links'] = $builder->buildTabs($entity);
+}

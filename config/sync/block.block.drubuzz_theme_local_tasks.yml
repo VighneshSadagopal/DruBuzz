@@ -1,0 +1,22 @@
+uuid: c49b790b-fa85-41d4-beb9-9a835843af1a
+langcode: en
+status: true
+dependencies:
+  theme:
+    - drubuzz_theme
+_core:
+  default_config_hash: fDfV4IcHfOSeCbADd63e4H5s7O_6YjLwK-04UwzVVOY
+id: drubuzz_theme_local_tasks
+theme: drubuzz_theme
+region: highlighted
+weight: -4
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

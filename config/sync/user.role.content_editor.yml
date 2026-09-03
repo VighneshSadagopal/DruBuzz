@@ -1,0 +1,52 @@
+uuid: 3e1983b3-6243-4891-8dd5-6eac435792fa
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+    - media.type.image
+    - node.type.event
+    - node.type.posts
+    - taxonomy.vocabulary.tags
+    - workflows.workflow.editorial_review
+  module:
+    - content_moderation
+    - contextual
+    - drubuzz_ai
+    - file
+    - filter
+    - media
+    - node
+    - path
+    - system
+    - taxonomy
+_core:
+  default_config_hash: og55Zu0F-q-X8zG0Ohrls49zws6IrmmosZS-30Es8vw
+id: content_editor
+label: 'Content editor'
+weight: 2
+is_admin: false
+permissions:
+  - 'access content'
+  - 'access content overview'
+  - 'access contextual links'
+  - 'access files overview'
+  - 'access media overview'
+  - 'administer media'
+  - 'create event content'
+  - 'create image media'
+  - 'create posts content'
+  - 'create terms in tags'
+  - 'create url aliases'
+  - 'delete own event content'
+  - 'delete own files'
+  - 'delete own posts content'
+  - 'edit own event content'
+  - 'edit own posts content'
+  - 'edit terms in tags'
+  - 'generate post content with ai'
+  - 'use editorial_review transition create_new_draft'
+  - 'use editorial_review transition submit_for_review'
+  - 'use text format basic_html'
+  - 'view own unpublished content'
+  - 'view the administration theme'

@@ -1,0 +1,11 @@
+name: 'DruBuzz Publish'
+type: module
+description: 'Connects LinkedIn and X accounts by OAuth 2.0 and publishes scheduled Posts nodes to them through their APIs (text + image), driven by cron.'
+package: DruBuzz
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - drupal:node
+  - drupal:datetime
+  - drupal:options
+  - drupal:file
+  - drupal:image

@@ -1,0 +1,19 @@
+{#
+/**
+ * @file
+ * Content queue — render the moderation state as a DruBuzz status pill.
+ *
+ * @see drubuzz_theme_theme_suggestions_views_view_field_alter()
+ */
+#}
+{%- set raw = output|render|striptags|trim|lower -%}
+{%- if 'review' in raw -%}
+  {%- set cls = 'review' -%}
+{%- elseif 'change' in raw -%}
+  {%- set cls = 'changes' -%}
+{%- elseif 'publish' in raw -%}
+  {%- set cls = 'live' -%}
+{%- else -%}
+  {%- set cls = 'draft' -%}
+{%- endif -%}
+<span class="db-pill db-pill--{{ cls }}"><span class="db-pill__dot"></span>{{ output|render|striptags|trim }}</span>

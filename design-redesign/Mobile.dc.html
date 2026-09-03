@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: #141210; color: #f4efe6;
+      font-family: "Hanken Grotesk", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+      font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    a { color: #cdf23a; text-decoration: none; }
+    a:hover { color: #e6ff8a; }
+    h1 { font-family: "Bricolage Grotesque", "Trebuchet MS", Verdana, sans-serif;
+      font-weight: 800; margin: 0; letter-spacing: -0.03em; }
+    svg { display: block; }
+
+    .phone { width: 390px; height: 844px; background: #141210; display: flex; flex-direction: column; overflow: hidden; }
+
+    .top { padding: 20px 20px 14px; display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .top .brand { display: flex; align-items: center; gap: 9px;
+      font-family: "Bricolage Grotesque", "Trebuchet MS", Verdana, sans-serif; font-weight: 800; font-size: 17px; letter-spacing: -0.035em; }
+    .top .brand .mark { width: 11px; height: 11px; border-radius: 50%; background: #cdf23a; box-shadow: 0 0 0 3px rgba(205,242,58,0.16); }
+    .top .compose { margin-left: auto; width: 36px; height: 36px; border-radius: 10px; background: #cdf23a; color: #141210;
+      display: flex; align-items: center; justify-content: center; }
+    .top .compose svg { width: 18px; height: 18px; }
+
+    .weekstrip { display: flex; gap: 6px; padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .wd { flex: 1; text-align: center; padding: 8px 0; border-radius: 10px; font-weight: 700; font-size: 12px; color: #7a7161; }
+    .wd b { display: block; font-family: "Bricolage Grotesque", "Trebuchet MS", Verdana, sans-serif; font-size: 15px; color: #cbc2b2; letter-spacing: 0; margin-top: 2px; }
+    .wd.on { background: #cdf23a; color: #141210; }
+    .wd.on b { color: #141210; }
+
+    .feed { flex: 1; overflow: hidden; padding: 8px 20px 20px; display: flex; flex-direction: column; gap: 20px; }
+    .day .dh { display: flex; align-items: baseline; gap: 8px; margin: 12px 0 10px; }
+    .day .dh h1 { font-size: 16px; }
+    .day .dh span { color: #7a7161; font-size: 12px; font-weight: 600; }
+    .card { background: #221e18; border: 1px solid rgba(255,255,255,0.07); border-radius: 13px; padding: 13px; display: flex; flex-direction: column; gap: 8px; }
+    .card--sched { box-shadow: inset 0 2px 0 #7cb8ff; }
+    .card--review { box-shadow: inset 0 2px 0 #e0a43b; }
+    .card--draft { box-shadow: inset 0 2px 0 #6f665a; }
+    .card .meta { display: flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 700; color: #8a8072; }
+    .card .meta .dots { display: flex; gap: 3px; }
+    .card .meta .dots i { width: 7px; height: 7px; border-radius: 50%; display: block; }
+    .card .meta .pill { margin-left: auto; padding: 2px 8px; border-radius: 999px; font-size: 9.5px; letter-spacing: 0.05em; text-transform: uppercase; }
+    .pill--sched { background: rgba(124,184,255,0.16); color: #7cb8ff; }
+    .pill--review { background: rgba(224,164,59,0.18); color: #e0a43b; }
+    .pill--draft { background: rgba(168,159,144,0.16); color: #c7bda9; }
+    .card .cap { font-size: 13px; color: #e7e0d3; line-height: 1.4; }
+
+    .tabbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 26px 22px;
+      border-top: 1px solid rgba(255,255,255,0.07); background: #17130f; }
+    .tab { color: #6f665a; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; }
+    .tab svg { width: 22px; height: 22px; }
+    .tab.on { color: #cdf23a; }
+    .tab.mid { width: 46px; height: 46px; border-radius: 14px; background: #cdf23a; color: #141210; justify-content: center; }
+    .tab.mid svg { width: 22px; height: 22px; }
+  </style>
+</helmet>
+
+<div class="phone">
+  <div class="top">
+    <span class="brand"><span class="mark"></span>DruBuzz</span>
+    <span class="compose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+  </div>
+
+  <div class="weekstrip">
+    <span class="wd">M<b>3</b></span>
+    <span class="wd">T<b>4</b></span>
+    <span class="wd on">W<b>5</b></span>
+    <span class="wd">T<b>6</b></span>
+    <span class="wd">F<b>7</b></span>
+    <span class="wd">S<b>8</b></span>
+    <span class="wd">S<b>9</b></span>
+  </div>
+
+  <div class="feed">
+    <div class="day">
+      <div class="dh"><h1>Wednesday</h1><span>Mar 5 · today</span></div>
+      <div class="card card--sched" style="margin-bottom:10px">
+        <div class="meta">08:30 <span class="dots"><i style="background:#e8e3d7"></i><i style="background:#8f8ff0"></i></span><span class="pill pill--sched">Scheduled</span></div>
+        <div class="cap">New on the blog: planning a week of posts in one sitting</div>
+      </div>
+      <div class="card card--draft">
+        <div class="meta">17:00 <span class="dots"><i style="background:#5b8fd6"></i></span><span class="pill pill--draft">Draft</span></div>
+        <div class="cap">Community AMA recap — the five questions that came up most</div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="dh"><h1>Thursday</h1><span>Mar 6</span></div>
+      <div class="card card--sched">
+        <div class="meta">10:00 <span class="dots"><i style="background:#4a8fd0"></i></span><span class="pill pill--sched">Scheduled</span></div>
+        <div class="cap">Hiring: senior brand designer, fully remote — details in comments</div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="dh"><h1>Friday</h1><span>Mar 7</span></div>
+      <div class="card card--review">
+        <div class="meta">12:00 <span class="dots"><i style="background:#d46aa8"></i></span><span class="pill pill--review">In review</span></div>
+        <div class="cap">Friday moodboard — what the studio is looking at this week</div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="tabbar">
+    <span class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>Calendar</span>
+    <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg>Queue</span>
+    <span class="tab mid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 5.5 18.5 10M4 20l1-4L16 5l3 3L8 19l-4 1Z"/></svg></span>
+    <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 3 7 21M17 3l-2 18M4 8.5h16M3 15.5h16"/></svg>Channels</span>
+    <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" stroke-linecap="round"/></svg>Me</span>
+  </nav>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,131 @@
+/**
+ * @file
+ * Dark theming for the events calendar (FullCalendar) at /events/calendar.
+ * Loaded only on route view.events_calendar.page_1.
+ */
+
+.view-events-calendar { margin-top: 0.5rem; }
+
+.fc {
+  --fc-border-color: var(--db-line);
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: var(--db-surface-1);
+  --fc-today-bg-color: rgba(205, 242, 58, 0.06);
+  --fc-now-indicator-color: var(--db-signal);
+  --fc-event-bg-color: var(--db-surface-3);
+  --fc-event-border-color: transparent;
+  --fc-event-text-color: var(--db-ink);
+  --fc-list-event-hover-bg-color: var(--db-surface-2);
+  font-family: var(--db-font-body);
+  color: var(--db-ink);
+}
+
+/* Toolbar */
+.fc .fc-toolbar { gap: 0.75rem; flex-wrap: wrap; }
+.fc .fc-toolbar-title {
+  font-family: var(--db-font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 1.25rem;
+}
+.fc .fc-button,
+.fc .fc-button-primary {
+  background: transparent;
+  border: 1px solid var(--db-line-2);
+  color: var(--db-ink);
+  font-family: var(--db-font-body);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--db-radius-sm);
+  box-shadow: none;
+}
+.fc .fc-button-primary:not(:disabled):hover { background: rgba(255, 255, 255, 0.05); border-color: var(--db-signal); color: var(--db-ink); }
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background: var(--db-signal);
+  border-color: var(--db-signal);
+  color: var(--db-signal-ink);
+  box-shadow: none;
+}
+.fc .fc-button:focus-visible { outline: 2px solid var(--db-signal); outline-offset: 2px; }
+.fc .fc-button-primary:disabled { background: transparent; border-color: var(--db-line); color: var(--db-ink-3); opacity: 1; }
+
+/* Grid frame */
+.fc .fc-scrollgrid,
+.fc .fc-scrollgrid-section > * { border-color: var(--db-line); }
+.fc-theme-standard td,
+.fc-theme-standard th { border-color: var(--db-line); }
+.fc-theme-standard .fc-scrollgrid { border-radius: var(--db-radius); overflow: hidden; }
+
+.fc .fc-col-header-cell {
+  background: var(--db-surface-1);
+  padding: 0.6rem 0;
+}
+.fc .fc-col-header-cell-cushion {
+  color: var(--db-ink-2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.fc .fc-daygrid-day { background: var(--db-bg); }
+.fc .fc-daygrid-day.fc-day-other { background: var(--db-surface-1); }
+.fc .fc-daygrid-day-number {
+  color: var(--db-ink);
+  font-family: var(--db-font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  padding: 0.4rem 0.5rem;
+}
+.fc .fc-day-today .fc-daygrid-day-number {
+  background: var(--db-signal);
+  color: var(--db-signal-ink);
+  border-radius: 7px;
+}
+.fc .fc-daygrid-day.fc-day-sat,
+.fc .fc-daygrid-day.fc-day-sun { background: #151109; }
+
+/* Events */
+.fc .fc-daygrid-event,
+.fc .fc-timegrid-event {
+  border-radius: 7px;
+  padding: 3px 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  box-shadow: inset 0 2px 0 var(--db-blue);
+}
+.fc .fc-event:hover { filter: brightness(1.15); }
+.fc .fc-event-time { color: var(--db-ink-2); font-weight: 700; }
+.fc .fc-daygrid-event-dot { border-color: var(--db-blue); }
+.fc .fc-more-link { color: var(--db-signal); font-weight: 700; font-size: 0.72rem; }
+
+/* List view */
+.fc .fc-list {
+  border-color: var(--db-line);
+  border-radius: var(--db-radius);
+  overflow: hidden;
+}
+.fc .fc-list-day-cushion { background: var(--db-surface-1); color: var(--db-ink); }
+.fc .fc-list-event:hover td { background: var(--db-surface-2); }
+.fc .fc-list-event-time,
+.fc .fc-list-event-title { color: var(--db-ink); }
+.fc .fc-list-event-dot { border-color: var(--db-blue); }
+.fc .fc-list-empty { background: var(--db-surface-1); color: var(--db-ink-2); }
+
+/* Popover (more events) */
+.fc .fc-popover {
+  background: var(--db-surface-2);
+  border: 1px solid var(--db-line-2);
+  border-radius: var(--db-radius);
+}
+.fc .fc-popover-header { background: var(--db-surface-1); color: var(--db-ink); }
+
+@media (max-width: 700px) {
+  .fc .fc-toolbar { justify-content: center; }
+  .fc .fc-toolbar-title { font-size: 1.05rem; }
+}

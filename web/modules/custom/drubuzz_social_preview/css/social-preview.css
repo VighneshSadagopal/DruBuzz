@@ -1,0 +1,411 @@
+/**
+ * @file
+ * Platform-accurate post cards rendered inside the preview modal.
+ * Everything is scoped under `.sp` so host theme styles do not leak in.
+ */
+
+.sp,
+.sp * {
+  box-sizing: border-box;
+}
+
+.sp {
+  --sp-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0 auto;
+  font-family: var(--sp-font);
+  font-size: 15px;
+  line-height: 1.4;
+  color: #0f1419;
+  text-align: left;
+}
+
+.sp img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.sp p {
+  margin: 0;
+}
+
+/* --- Generic fallback card (used only if a platform template is missing) */
+.sp--generic {
+  max-width: 540px;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.sp-gen__head { display: flex; align-items: center; gap: 10px; }
+.sp-gen__id { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px; }
+.sp-gen__name { font-weight: 700; }
+.sp-gen__handle, .sp-gen__time { color: #536471; font-size: 0.9em; }
+.sp-gen__body { margin: 10px 0; white-space: pre-wrap; word-wrap: break-word; }
+.sp-gen__media { border-radius: 12px; overflow: hidden; }
+
+/* --- Shared avatar ------------------------------------------------------- */
+.sp-avatar {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #64748b, #334155);
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
+.sp-avatar--round { border-radius: 50%; }
+.sp-avatar--rounded { border-radius: 8px; }
+.sp-avatar--sm { width: 32px; height: 32px; font-size: 12px; }
+.sp-avatar--lg { width: 48px; height: 48px; }
+.sp-avatar--img { background: #e5e7eb; }
+.sp-avatar--img img { width: 100%; height: 100%; object-fit: cover; }
+
+/* --- Shared meta / char-budget line ------------------------------------ */
+.sp-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.6rem;
+  max-width: 540px;
+  margin: 0.75rem auto 0;
+  padding-top: 0.6rem;
+  border-top: 1px dashed #d1d5db;
+  font-family: var(--sp-font);
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.sp-meta__count { font-weight: 700; color: #374151; }
+.sp-meta.is-over .sp-meta__count { color: #dc2626; }
+.sp-meta__warn { color: #dc2626; font-weight: 600; }
+.sp-meta__link { margin-left: auto; color: #2563eb; text-decoration: none; }
+.sp-meta__link:hover { text-decoration: underline; }
+
+/* ===================================================================== */
+/* X                                                                     */
+/* ===================================================================== */
+.sp--x {
+  max-width: 560px;
+  padding: 12px 16px;
+  background: #fff;
+  border: 1px solid #eff3f4;
+  border-radius: 16px;
+}
+
+.x-post { display: flex; gap: 12px; }
+.x-post__main { min-width: 0; flex: 1; }
+
+.x-post__head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  color: #536471;
+}
+
+.x-post__name { font-weight: 700; color: #0f1419; }
+.x-post__badge { color: #1d9bf0; }
+.x-post__handle,
+.x-post__sep,
+.x-post__time { color: #536471; }
+.x-post__more { margin-left: auto; color: #536471; letter-spacing: 1px; }
+
+.x-post__body {
+  margin: 2px 0 12px;
+  font-size: 15px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.x-post__media {
+  margin: 4px 0 12px;
+  border: 1px solid #cfd9de;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.x-post__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 425px;
+  color: #536471;
+}
+
+.x-post__action { display: inline-flex; align-items: center; gap: 6px; }
+.x-post__action--end { gap: 16px; }
+.x-post__action--like:hover { color: #f91880; }
+.x-post__action--rt:hover { color: #00ba7c; }
+
+/* ===================================================================== */
+/* Mastodon                                                              */
+/* ===================================================================== */
+.sp--mastodon {
+  max-width: 520px;
+  background: #fff;
+  border: 1px solid #c0cdd9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.m-post { padding: 14px 16px; color: #191b22; }
+
+.m-post__head { display: flex; align-items: center; gap: 10px; }
+.m-post__id { min-width: 0; display: flex; flex-direction: column; line-height: 1.3; }
+.m-post__name { font-weight: 700; }
+.m-post__handle { color: #606984; font-size: 14px; overflow: hidden; text-overflow: ellipsis; }
+.m-post__time { margin-left: auto; color: #606984; font-size: 14px; white-space: nowrap; }
+
+.m-post__body {
+  margin: 12px 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.m-post__media {
+  margin: 12px 0;
+  border: 1px solid #c0cdd9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.m-post__actions {
+  display: flex;
+  justify-content: space-between;
+  max-width: 320px;
+  color: #606984;
+}
+.m-post__action:hover { color: #6364ff; }
+
+/* ===================================================================== */
+/* LinkedIn                                                              */
+/* ===================================================================== */
+.sp--linkedin {
+  max-width: 520px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 14px;
+}
+
+.li-post { padding: 12px 16px 4px; }
+
+.li-post__head { display: flex; align-items: flex-start; gap: 8px; }
+.li-post__id { min-width: 0; flex: 1; line-height: 1.35; }
+.li-post__name { font-weight: 600; font-size: 14px; }
+.li-post__degree { color: rgba(0, 0, 0, 0.6); font-weight: 400; }
+.li-post__headline { color: rgba(0, 0, 0, 0.6); font-size: 12px; }
+.li-post__meta { display: flex; align-items: center; gap: 4px; color: rgba(0, 0, 0, 0.6); font-size: 12px; }
+.li-post__follow { color: #0a66c2; font-weight: 600; white-space: nowrap; }
+
+.li-post__body {
+  margin: 12px 0;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.li-post__media {
+  margin: 12px -16px;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.li-post__stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+}
+
+.li-post__reacts { display: inline-flex; }
+.li-react {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-left: -4px;
+  border-radius: 50%;
+  color: #fff;
+}
+.li-react svg { width: 11px; height: 11px; }
+.li-react--like { background: #378fe9; margin-left: 0; }
+.li-react--heart { background: #df704d; }
+
+.li-post__actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 4px 0;
+  border-top: 1px solid #e0e0e0;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 600;
+}
+
+.li-post__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 6px;
+}
+.li-post__action:hover { background: rgba(0, 0, 0, 0.05); border-radius: 4px; }
+
+/* ===================================================================== */
+/* Facebook                                                             */
+/* ===================================================================== */
+.sp--facebook {
+  max-width: 500px;
+  background: #fff;
+  border: 1px solid #dddfe2;
+  border-radius: 8px;
+  overflow: hidden;
+  color: #050505;
+  font-size: 15px;
+}
+
+.fb-post { padding: 12px 0 4px; }
+.fb-post__head { display: flex; align-items: center; gap: 8px; padding: 0 12px; }
+.fb-post__id { display: flex; flex-direction: column; line-height: 1.3; }
+.fb-post__name { font-weight: 600; }
+.fb-post__meta { display: flex; align-items: center; gap: 4px; color: #65676b; font-size: 13px; }
+.fb-post__more { margin-left: auto; color: #65676b; letter-spacing: 1px; }
+
+.fb-post__body {
+  margin: 10px 0;
+  padding: 0 12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.fb-post__media { margin: 0; background: #f0f2f5; }
+
+.fb-post__stats { padding: 10px 12px; }
+.fb-pill { display: inline-flex; }
+.fb-pill span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-left: -3px;
+  border-radius: 50%;
+  color: #fff;
+}
+.fb-pill span:first-child { margin-left: 0; }
+.fb-pill svg { width: 11px; height: 11px; }
+.fb-pill__like { background: #1877f2; }
+.fb-pill__heart { background: #f33e58; }
+
+.fb-post__actions {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 12px;
+  padding: 4px 0;
+  border-top: 1px solid #ced0d4;
+  color: #65676b;
+  font-weight: 600;
+}
+.fb-post__action { display: inline-flex; align-items: center; gap: 6px; padding: 8px; }
+.fb-post__action:hover { background: #f2f2f2; border-radius: 4px; }
+
+/* ===================================================================== */
+/* Instagram                                                           */
+/* ===================================================================== */
+.sp--instagram {
+  max-width: 440px;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  overflow: hidden;
+  color: #262626;
+  font-size: 14px;
+}
+
+.ig-post__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+}
+
+.ig-post__ring {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+.ig-post__ring .sp-avatar { border: 2px solid #fff; }
+
+.ig-post__user { font-weight: 600; }
+.ig-post__sep { color: #8e8e8e; }
+.ig-post__time { color: #8e8e8e; }
+.ig-post__more { margin-left: auto; letter-spacing: 1px; }
+
+.ig-post__media {
+  aspect-ratio: 1 / 1;
+  background: #fafafa;
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+}
+.ig-post__media img { width: 100%; height: 100%; object-fit: cover; }
+.ig-post__media--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #8e8e8e;
+  text-align: center;
+}
+
+.ig-post__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px 6px;
+}
+.ig-post__action--end { margin-left: auto; }
+.ig-post__action svg { width: 22px; height: 22px; }
+
+.ig-post__caption {
+  padding: 0 14px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.ig-post__caption .ig-post__user { margin-right: 4px; }
+
+.ig-post__comments {
+  padding: 6px 14px 12px;
+  color: #8e8e8e;
+}
+
+/* The cards always use their light/white surfaces: the Drupal modal chrome is
+ * light regardless of the OS colour scheme, so a dark card would clash. */
+
+/* --- Dialog chrome: stop the "<Platform> preview" title clipping ------- */
+.ui-dialog.social-preview-dialog .ui-dialog-titlebar {
+  height: auto;
+  min-height: 0;
+  padding-top: 0.55em;
+  padding-bottom: 0.55em;
+}
+
+.ui-dialog.social-preview-dialog .ui-dialog-title {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  white-space: normal;
+  overflow: visible;
+}

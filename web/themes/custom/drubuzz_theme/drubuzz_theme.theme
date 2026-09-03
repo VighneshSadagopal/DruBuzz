@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @file
+ * Theme hooks for the DruBuzz theme.
+ */
+
+/**
+ * Implements hook_page_attachments_alter().
+ *
+ * Load page-specific stylesheets: the landing sheet on the front page, the
+ * calendar sheet on the events calendar view.
+ */
+function drubuzz_theme_page_attachments_alter(array &$attachments): void {
+  $path_matcher = \Drupal::service('path.matcher');
+  if ($path_matcher->isFrontPage()) {
+    $attachments['#attached']['library'][] = 'drubuzz_theme/landing';
+  }
+
+  $route = \Drupal::routeMatch()->getRouteName();
+  if ($route === 'view.events_calendar.page_1') {
+    $attachments['#attached']['library'][] = 'drubuzz_theme/calendar';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for html.html.twig.
+ */
+function drubuzz_theme_preprocess_html(array &$variables): void {
+  if (\Drupal::service('path.matcher')->isFrontPage()) {
+    $variables['attributes']['class'][] = 'page-front';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for page.html.twig.
+ *
+ * Adds the current user's display name and initials for the sidebar identity
+ * chip.
+ */
+function drubuzz_theme_preprocess_page(array &$variables): void {
+  $account = \Drupal::currentUser();
+  $name = $account->isAuthenticated() ? trim((string) $account->getDisplayName()) : '';
+  $variables['db_user_name'] = $name;
+
+  $initials = '';
+  if ($name !== '') {
+    $parts = preg_split('/[\s._-]+/', $name, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+    if (count($parts) >= 2) {
+      $initials = mb_strtoupper(mb_substr($parts[0], 0, 1) . mb_substr($parts[count($parts) - 1], 0, 1));
+    }
+    else {
+      $initials = mb_strtoupper(mb_substr($name, 0, 2));
+    }
+  }
+  $variables['db_user_initials'] = $initials;
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for views_view_field.
+ *
+ * Lets the moderation-state field in the content queue use a status-pill
+ * template.
+ */
+function drubuzz_theme_theme_suggestions_views_view_field_alter(array &$suggestions, array $variables): void {
+  $view = $variables['view'] ?? NULL;
+  $field = $variables['field'] ?? NULL;
+  if ($view && $field && $view->id() === 'moderated_content' && $field->options['id'] === 'moderation_state') {
+    $suggestions[] = 'views_view_field__moderated_content__moderation_state';
+  }
+}

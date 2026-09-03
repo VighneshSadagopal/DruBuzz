@@ -1,0 +1,21 @@
+uuid: 9c9a4ace-8be8-43ac-89b2-3534c445b08b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_publish_channels
+    - node.type.posts
+  module:
+    - options
+id: node.posts.field_publish_channels
+field_name: field_publish_channels
+entity_type: node
+bundle: posts
+label: 'Publish to'
+description: 'Which connected networks this post should go to. If left empty, DruBuzz sends to every connected network that has body text for it.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

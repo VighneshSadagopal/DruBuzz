@@ -1,0 +1,20 @@
+drubuzz_social_preview.settings:
+  type: config_object
+  label: 'DruBuzz Social Preview settings'
+  mapping:
+    display_name:
+      type: label
+      label: 'Display name shown on previews'
+    username:
+      type: string
+      label: 'Username / handle'
+    headline:
+      type: label
+      label: 'LinkedIn headline line'
+    mastodon_instance:
+      type: string
+      label: 'Mastodon instance host'
+    profile_avatar_media:
+      type: integer
+      label: 'Profile avatar media entity ID'
+      nullable: true

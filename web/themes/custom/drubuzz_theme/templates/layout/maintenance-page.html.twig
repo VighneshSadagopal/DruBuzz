@@ -1,0 +1,12 @@
+{#
+/**
+ * @file
+ * Theme override to display a single Drupal page while offline.
+ */
+#}
+<div class="db-maintenance">
+  {% if title %}<h1>{{ title }}</h1>{% endif %}
+  {{ page.content }}
+  {{ page.sidebar_first }}
+  {{ page.sidebar_second }}
+</div>

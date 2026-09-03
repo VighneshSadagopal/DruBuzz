@@ -1,0 +1,42 @@
+uuid: ac96fd61-95db-4630-a992-a3e5569c9df8
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+    - filter.format.full_html
+    - media.type.image
+    - node.type.event
+    - node.type.posts
+    - workflows.workflow.editorial_review
+  module:
+    - content_moderation
+    - drubuzz_ai
+    - filter
+    - media
+    - node
+    - system
+id: content_reviewer
+label: 'Content Reviewer'
+weight: 3
+is_admin: false
+permissions:
+  - 'access content'
+  - 'access content overview'
+  - 'access media overview'
+  - 'administer media'
+  - 'create event content'
+  - 'create image media'
+  - 'create posts content'
+  - 'edit any event content'
+  - 'edit any posts content'
+  - 'generate post content with ai'
+  - 'use editorial_review transition create_new_draft'
+  - 'use editorial_review transition publish'
+  - 'use editorial_review transition request_changes'
+  - 'use editorial_review transition submit_for_review'
+  - 'use text format basic_html'
+  - 'use text format full_html'
+  - 'view any unpublished content'
+  - 'view own unpublished content'
+  - 'view the administration theme'

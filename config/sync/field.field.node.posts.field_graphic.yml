@@ -1,0 +1,27 @@
+uuid: 3a516299-4d24-45c9-9ade-77d47d67505b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_graphic
+    - media.type.image
+    - node.type.posts
+id: node.posts.field_graphic
+field_name: field_graphic
+entity_type: node
+bundle: posts
+label: Graphic
+description: 'Image attached to the post on every platform.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

@@ -1,0 +1,48 @@
+uuid: 70718dfc-3b07-4320-b0bd-d176f1c3652f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.posts.field_body
+    - field.field.node.posts.field_description_linkedin
+    - field.field.node.posts.field_description_x
+    - field.field.node.posts.field_graphic
+    - field.field.node.posts.field_publish_at
+    - field.field.node.posts.field_publish_channels
+    - node.type.posts
+  module:
+    - text
+    - user
+id: node.posts.default
+targetEntityType: node
+bundle: posts
+mode: default
+content:
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  field_body:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+  social_preview_links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -50
+    region: content
+hidden:
+  field_description_linkedin: true
+  field_description_x: true
+  field_graphic: true
+  field_publish_at: true
+  field_publish_channels: true

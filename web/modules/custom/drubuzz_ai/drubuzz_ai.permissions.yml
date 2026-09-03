@@ -1,0 +1,8 @@
+'generate post content with ai':
+  title: 'Generate Posts copy with AI'
+  description: 'Use the "Generate with AI" panel on the Posts add/edit form to draft the platform description fields.'
+
+'administer drubuzz ai':
+  title: 'Administer DruBuzz AI'
+  description: 'Edit the system prompt and example posts used for AI generation.'
+  restrict access: true

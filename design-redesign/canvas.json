@@ -1,0 +1,13 @@
+{
+  "artboards": [
+    { "file": "Landing.dc.html", "x": 0, "y": 0, "w": 1440, "h": 2560, "title": "Landing page" },
+    { "file": "Main.dc.html", "x": 1560, "y": 0, "w": 1440, "h": 920, "title": "Calendar — week view" },
+    { "file": "Composer.dc.html", "x": 3120, "y": 0, "w": 1440, "h": 920, "title": "Composer" },
+    { "file": "Queue.dc.html", "x": 1560, "y": 2720, "w": 1440, "h": 920, "title": "Content queue" },
+    { "file": "Mobile.dc.html", "x": 3120, "y": 2720, "w": 390, "h": 844, "title": "Calendar — mobile" }
+  ],
+  "annotations": [
+    { "id": "direction-note", "x": 0, "y": -132, "w": 620, "text": "DruBuzz redesign — direction: warm near-black editorial console, one electric-lime signal accent, amber / cornflower / coral for post status. Type: Bricolage Grotesque + Hanken Grotesk. Sample content (Nova Studio, week of Mar 3) is placeholder." }
+  ],
+  "launch": { "view": "canvas" }
+}

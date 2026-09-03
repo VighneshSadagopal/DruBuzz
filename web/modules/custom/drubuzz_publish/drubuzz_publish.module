@@ -1,0 +1,124 @@
+<?php
+
+/**
+ * @file
+ * Cron-driven delivery of scheduled Posts nodes to LinkedIn and X.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_help().
+ */
+function drubuzz_publish_help(string $route_name, RouteMatchInterface $route_match): string {
+  if ($route_name === 'help.page.drubuzz_publish') {
+    return '<p>' . t('Connect a LinkedIn and an X account under Configuration → Web services → DruBuzz Publish. Each Posts node then gets a <em>Publish at</em> date and a <em>Publish to</em> selector; on cron, due posts are sent to the selected networks. The <em>Publish</em> tab on a Posts node shows the delivery log and can send immediately.') . '</p>';
+  }
+  return '';
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Finds published Posts whose "Publish at" time has passed (within the last 7
+ * days) and queues one delivery per target network that has not been sent yet.
+ */
+function drubuzz_publish_cron(): void {
+  $config = \Drupal::config('drubuzz_publish.settings');
+  if (!$config->get('enabled')) {
+    return;
+  }
+
+  /** @var \Drupal\drubuzz_publish\TokenStore $token_store */
+  $token_store = \Drupal::service('drubuzz_publish.token_store');
+  $connected = array_values(array_filter(
+    $token_store->platforms(),
+    static fn(string $p): bool => $token_store->isConnected($p),
+  ));
+  if (!$connected) {
+    return;
+  }
+
+  $now = \Drupal::time()->getRequestTime();
+  $nids = \Drupal::entityQuery('node')
+    ->accessCheck(FALSE)
+    ->condition('type', 'posts')
+    ->condition('status', 1)
+    ->exists('field_publish_at')
+    ->condition('field_publish_at', gmdate('Y-m-d\TH:i:s', $now), '<=')
+    ->condition('field_publish_at', gmdate('Y-m-d\TH:i:s', $now - 7 * 86400), '>=')
+    ->range(0, 50)
+    ->execute();
+  if (!$nids) {
+    return;
+  }
+
+  $database = \Drupal::database();
+  $queue = \Drupal::queue('drubuzz_publish_send');
+
+  foreach (Node::loadMultiple($nids) as $node) {
+    foreach (_drubuzz_publish_targets($node, $connected) as $platform) {
+      $exists = $database->select('drubuzz_publish_item', 'i')
+        ->fields('i', ['id'])
+        ->condition('nid', $node->id())
+        ->condition('platform', $platform)
+        ->condition('status', ['pending', 'sent'], 'IN')
+        ->range(0, 1)
+        ->execute()
+        ->fetchField();
+      if ($exists) {
+        continue;
+      }
+
+      $id = $database->insert('drubuzz_publish_item')
+        ->fields([
+          'nid' => (int) $node->id(),
+          'platform' => $platform,
+          'status' => 'pending',
+          'attempts' => 0,
+          'message' => 'Queued by cron.',
+          'created' => $now,
+          'changed' => $now,
+        ])
+        ->execute();
+      $queue->createItem(['item_id' => (int) $id]);
+    }
+  }
+}
+
+/**
+ * Resolves which connected networks a node should be sent to.
+ *
+ * @param \Drupal\node\NodeInterface $node
+ *   The Posts node.
+ * @param string[] $connected
+ *   Currently connected platform machine names.
+ *
+ * @return string[]
+ *   Target platform machine names.
+ */
+function _drubuzz_publish_targets(NodeInterface $node, array $connected): array {
+  if ($node->hasField('field_publish_channels') && !$node->get('field_publish_channels')->isEmpty()) {
+    $chosen = array_map(
+      static fn($item) => $item->value,
+      iterator_to_array($node->get('field_publish_channels')),
+    );
+    return array_values(array_intersect($connected, $chosen));
+  }
+
+  // No explicit choice: send everywhere there is text for.
+  $targets = [];
+  foreach ($connected as $platform) {
+    $field = $platform === 'x' ? 'field_description_x' : 'field_description_linkedin';
+    $has_platform_text = $node->hasField($field) && !$node->get($field)->isEmpty();
+    $has_body = $node->hasField('field_body') && !$node->get('field_body')->isEmpty();
+    if ($has_platform_text || $has_body) {
+      $targets[] = $platform;
+    }
+  }
+  return $targets;
+}

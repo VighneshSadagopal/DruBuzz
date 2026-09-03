@@ -1,0 +1,22 @@
+uuid: 39167642-112c-48ab-9c57-9f0cbce9789a
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - drubuzz_theme
+_core:
+  default_config_hash: dHW_QuvK8Lgj4A78Kk_p_EUD2gZ8GTHM-upqB67lwCk
+id: drubuzz_theme_help
+theme: drubuzz_theme
+region: help
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

@@ -1,0 +1,141 @@
+/**
+ * @file
+ * Toast notifications — Drupal status/warning/error messages rendered as
+ * stacked, auto-dismissing cards in the top-right corner.
+ *
+ * Covers both the server-rendered messages (templates/misc/status-messages)
+ * and messages added later by Drupal.Message() over AJAX (bare .messages
+ * inside [data-drupal-messages]).
+ */
+
+.db-toasts,
+[data-drupal-messages] {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: min(380px, calc(100vw - 2rem));
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+[data-drupal-messages]:empty {
+  display: none;
+}
+
+.db-toasts .messages,
+[data-drupal-messages] .messages {
+  pointer-events: auto;
+  position: relative;
+  margin: 0;
+  padding: 0.85rem 2.2rem 0.85rem 2.6rem;
+  border-radius: var(--db-radius, 12px);
+  border: 1px solid var(--db-line-2, rgba(255, 255, 255, 0.14));
+  background: var(--db-surface-2, #1e1b17);
+  color: var(--db-ink, #f4efe6);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.7);
+  animation: db-toast-in 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* Left accent + status dot per type. */
+.db-toasts .messages::before,
+[data-drupal-messages] .messages::before {
+  content: "";
+  position: absolute;
+  left: 0.95rem;
+  top: 1.05rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--db-ink-3, #6f665a);
+}
+.db-toasts .messages::after,
+[data-drupal-messages] .messages::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 3px 0 0 3px;
+  background: var(--db-ink-3, #6f665a);
+}
+
+.messages--status::before,
+[data-drupal-messages] .messages--status::before { background: var(--db-signal, #cdf23a); }
+.messages--status::after,
+[data-drupal-messages] .messages--status::after { background: var(--db-signal, #cdf23a); }
+
+.messages--warning::before,
+[data-drupal-messages] .messages--warning::before { background: var(--db-amber, #e0a43b); }
+.messages--warning::after,
+[data-drupal-messages] .messages--warning::after { background: var(--db-amber, #e0a43b); }
+
+.messages--error::before,
+[data-drupal-messages] .messages--error::before { background: var(--db-coral, #e5643c); }
+.messages--error::after,
+[data-drupal-messages] .messages--error::after { background: var(--db-coral, #e5643c); }
+
+.db-toast__body { min-width: 0; }
+.db-toast__body a { color: var(--db-signal, #cdf23a); }
+.db-toast__list { margin: 0; padding-left: 1.1rem; }
+.db-toast__list li + li { margin-top: 0.3rem; }
+
+.db-toast__close {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--db-ink-3, #6f665a);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.db-toast__close:hover,
+.db-toast__close:focus {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--db-ink, #f4efe6);
+}
+
+/* Drupal.Message() AJAX toasts have no explicit close button — give them room
+   and let the JS inject one. */
+[data-drupal-messages] .messages:not(.db-toast) { padding-right: 2.2rem; }
+
+.db-toasts .messages.is-leaving,
+[data-drupal-messages] .messages.is-leaving {
+  animation: db-toast-out 0.2s ease forwards;
+}
+
+@keyframes db-toast-in {
+  from { opacity: 0; transform: translateX(12px) scale(0.98); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes db-toast-out {
+  to { opacity: 0; transform: translateX(12px) scale(0.98); height: 0; margin-top: -0.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .db-toasts .messages,
+  [data-drupal-messages] .messages,
+  .db-toasts .messages.is-leaving,
+  [data-drupal-messages] .messages.is-leaving { animation: none; }
+}
+
+@media (max-width: 560px) {
+  .db-toasts,
+  [data-drupal-messages] {
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+  }
+}

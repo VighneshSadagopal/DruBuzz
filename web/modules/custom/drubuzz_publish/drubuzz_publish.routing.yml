@@ -1,0 +1,45 @@
+drubuzz_publish.settings:
+  path: '/admin/config/services/drubuzz-publish'
+  defaults:
+    _form: '\Drupal\drubuzz_publish\Form\SettingsForm'
+    _title: 'DruBuzz Publish'
+  requirements:
+    _permission: 'administer drubuzz publish'
+
+drubuzz_publish.oauth_start:
+  path: '/admin/config/services/drubuzz-publish/connect/{platform}'
+  defaults:
+    _controller: '\Drupal\drubuzz_publish\Controller\OAuthController::start'
+  requirements:
+    _permission: 'administer drubuzz publish'
+    platform: 'linkedin|x'
+
+drubuzz_publish.oauth_callback:
+  path: '/admin/config/services/drubuzz-publish/callback/{platform}'
+  defaults:
+    _controller: '\Drupal\drubuzz_publish\Controller\OAuthController::callback'
+  requirements:
+    _permission: 'administer drubuzz publish'
+    platform: 'linkedin|x'
+
+drubuzz_publish.oauth_disconnect:
+  path: '/admin/config/services/drubuzz-publish/disconnect/{platform}'
+  defaults:
+    _form: '\Drupal\drubuzz_publish\Form\DisconnectForm'
+    _title: 'Disconnect account'
+  requirements:
+    _permission: 'administer drubuzz publish'
+    platform: 'linkedin|x'
+
+drubuzz_publish.node_publish:
+  path: '/node/{node}/publish'
+  defaults:
+    _form: '\Drupal\drubuzz_publish\Form\SendNowForm'
+    _title: 'Publish'
+  requirements:
+    _permission: 'publish drubuzz posts'
+    _custom_access: '\Drupal\drubuzz_publish\Form\SendNowForm::access'
+  options:
+    parameters:
+      node:
+        type: entity:node

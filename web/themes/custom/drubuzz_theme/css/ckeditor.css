@@ -1,0 +1,110 @@
+/**
+ * @file
+ * CKEditor 5 surface for the DruBuzz theme.
+ *
+ * CKEditor injects its Lark palette as runtime <style> tags after the page's
+ * stylesheets, so remapping `--ck-color-*` custom properties does not stick.
+ * Instead force the editing surface directly: a light warm-grey panel with
+ * near-black text, framed so it reads as an inset on the dark page.
+ */
+
+/* ---- Editing surface: light grey + dark text ---- */
+.ck.ck-editor__main > .ck-editor__editable,
+.ck.ck-editor__editable.ck-editor__editable_inline,
+.ck.ck-content,
+.ck-source-editing-area textarea {
+  background: #1b1712 !important;
+}
+
+
+.ck.ck-content,
+.ck.ck-content li,
+.ck.ck-content h1,
+.ck.ck-content h2,
+.ck.ck-content h3,
+.ck.ck-content h4,
+.ck.ck-content blockquote,
+.ck.ck-content td,
+.ck.ck-content th {
+  color: #1b1712 !important;
+}
+
+.ck.ck-editor__editable_inline {
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  border-radius: 0 0 8px 8px;
+}
+.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+  border-color: #cdf23a !important;
+  box-shadow: 0 0 0 2px rgba(205, 242, 58, 0.35) !important;
+}
+
+/* Placeholder + selection inside the editor. */
+.ck.ck-editor__editable .ck-placeholder::before,
+.ck.ck-editor__editable.ck-placeholder::before {
+  color: #7a756c !important;
+}
+.ck.ck-content ::selection {
+  background: rgba(205, 242, 58, 0.45);
+  color: #1b1712;
+}
+
+/* Content links / quotes / code stay legible on the grey. */
+.ck.ck-content a { color: #1d4ed8 !important; }
+.ck.ck-content blockquote {
+  border-left: 3px solid rgba(0, 0, 0, 0.25) !important;
+  color: #3a352e !important;
+}
+.ck.ck-content code {
+  background: rgba(0, 0, 0, 0.07) !important;
+  color: #1b1712 !important;
+}
+.ck.ck-content hr { background: rgba(0, 0, 0, 0.18) !important; }
+
+/* ---- Toolbar: light, framed, sitting on top of the grey panel ---- */
+.ck.ck-editor__top .ck-toolbar,
+.ck.ck-toolbar {
+  background: #e7e5e1 !important;
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  border-bottom: 0 !important;
+  border-radius: 8px 8px 0 0;
+}
+.ck.ck-toolbar .ck-button,
+.ck.ck-toolbar .ck-button .ck-button__label,
+.ck.ck-toolbar .ck-button .ck-icon,
+.ck.ck-toolbar .ck-dropdown__button {
+  color: #2a251f !important;
+}
+.ck.ck-toolbar .ck-button:not(.ck-disabled):hover {
+  background: rgba(0, 0, 0, 0.06) !important;
+}
+.ck.ck-toolbar .ck-button.ck-on {
+  background: rgba(0, 0, 0, 0.12) !important;
+  color: #141210 !important;
+}
+.ck.ck-toolbar .ck-toolbar__separator {
+  background: rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ---- Dropdown / balloon panels (font family, colour lists…) ---- */
+.ck.ck-dropdown__panel,
+.ck.ck-list,
+.ck.ck-balloon-panel {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+  color: #1b1712 !important;
+}
+.ck.ck-list .ck-button,
+.ck.ck-list .ck-button .ck-button__label {
+  color: #1b1712 !important;
+}
+.ck.ck-list .ck-button:hover {
+  background: rgba(0, 0, 0, 0.06) !important;
+}
+.ck.ck-list .ck-button.ck-on {
+  background: #eef7cf !important;
+  color: #141210 !important;
+}
+
+.ck.ck-content p {
+  color: #f2f1ee !important;
+}

@@ -1,0 +1,12 @@
+services:
+  drubuzz_ai.generator:
+    class: Drupal\drubuzz_ai\PostContentGenerator
+    arguments:
+      - '@ai.provider'
+      - '@ai.prompt_json_decode'
+      - '@config.factory'
+      - '@logger.channel.drubuzz_ai'
+
+  logger.channel.drubuzz_ai:
+    parent: logger.channel_base
+    arguments: ['drubuzz_ai']

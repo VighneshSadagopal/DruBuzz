@@ -1,0 +1,36 @@
+uuid: a53cbfa2-a369-417f-9b7c-b0b9a05fdf4e
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_post_category
+field_name: field_post_category
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: reminder
+      label: Reminder
+    -
+      value: announcment
+      label: Announcment
+    -
+      value: highlight
+      label: Highlight
+    -
+      value: sponsor_promotion
+      label: 'Sponsor Promotion'
+    -
+      value: speaker_promotion
+      label: 'Speaker Promotion'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

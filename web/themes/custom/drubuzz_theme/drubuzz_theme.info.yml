@@ -1,0 +1,26 @@
+name: DruBuzz
+type: theme
+description: 'Warm near-black editorial console for DruBuzz — the standalone front-end theme.'
+package: DruBuzz
+core_version_requirement: ^10.3 || ^11
+base theme: false
+libraries:
+  - drubuzz_theme/global
+ckeditor5-stylesheets:
+  - css/ckeditor-content.css
+libraries-extend:
+  # Skin the jQuery UI / AJAX modal dialog (social-preview popups, confirm
+  # dialogs) — a base-theme-less theme ships none by default.
+  core/drupal.dialog:
+    - drubuzz_theme/dialog
+  # Dark-mode the CKEditor 5 rich-text field so it matches the console.
+  ckeditor5/internal.drupal.ckeditor5:
+    - drubuzz_theme/ckeditor
+regions:
+  header: Header
+  primary_menu: 'Primary menu'
+  sidebar: Sidebar
+  highlighted: Highlighted
+  help: Help
+  content: Content
+  footer: Footer

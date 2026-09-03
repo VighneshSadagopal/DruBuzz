@@ -1,0 +1,16 @@
+tabs:
+  version: 1.x
+  css:
+    theme:
+      css/social-preview-tabs.css: {}
+  js:
+    js/social-preview-tabs.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+
+preview:
+  version: 1.x
+  css:
+    theme:
+      css/social-preview.css: {}

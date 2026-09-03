@@ -1,0 +1,8 @@
+name: 'DruBuzz AI'
+type: module
+description: 'Generates the LinkedIn/Facebook/Instagram and X/Mastodon copy for a Posts node from a short idea, using the site AI provider. Adds a "Generate with AI" panel to the Posts add/edit form.'
+package: DruBuzz
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - drupal:node
+  - ai:ai

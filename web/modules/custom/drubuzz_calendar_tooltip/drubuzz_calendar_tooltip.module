@@ -1,0 +1,156 @@
+<?php
+
+/**
+ * @file
+ * Adds rich hover tooltips to the Events Calendar (FullCalendar) view.
+ *
+ * The FullCalendar views style plugin only passes the title/date/URL of each
+ * event to the browser, so the body field is injected into the JavaScript
+ * settings here and rendered on hover by the accompanying library.
+ */
+
+use Drupal\Core\Asset\AttachedAssetsInterface;
+use Drupal\Core\Url;
+use Drupal\views\ViewExecutable;
+
+/**
+ * The route of the calendar page display.
+ */
+const DRUBUZZ_CALENDAR_TOOLTIP_ROUTE = 'view.events_calendar.page_1';
+
+/**
+ * The view that renders the calendar on /events/calendar.
+ */
+const DRUBUZZ_CALENDAR_TOOLTIP_VIEW_ID = 'events_calendar';
+
+/**
+ * The field shown in the tooltip body.
+ */
+const DRUBUZZ_CALENDAR_TOOLTIP_BODY_FIELD = 'field_body';
+
+/**
+ * The post category field.
+ */
+const DRUBUZZ_CALENDAR_TOOLTIP_CATEGORY_FIELD = 'field_post_category';
+
+/**
+ * Implements hook_page_attachments().
+ *
+ * Attaches the tooltip library on the calendar page. This is done on the route
+ * (rather than only in hook_views_pre_render()) so it survives the Views render
+ * cache being warm.
+ */
+function drubuzz_calendar_tooltip_page_attachments(array &$attachments): void {
+  if (\Drupal::routeMatch()->getRouteName() === DRUBUZZ_CALENDAR_TOOLTIP_ROUTE) {
+    $attachments['#attached']['library'][] = 'drubuzz_calendar_tooltip/tooltip';
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Attaches the tooltip library whenever the Events Calendar view is rendered,
+ * covering cases where it is embedded as a block or in another display.
+ */
+function drubuzz_calendar_tooltip_views_pre_render(ViewExecutable $view): void {
+  if ($view->id() === DRUBUZZ_CALENDAR_TOOLTIP_VIEW_ID) {
+    $view->element['#attached']['library'][] = 'drubuzz_calendar_tooltip/tooltip';
+  }
+}
+
+/**
+ * Implements hook_js_settings_alter().
+ *
+ * Injects the rendered body field and the post category into every FullCalendar
+ * event so the tooltip script can display them. Non-standard keys on an event
+ * object are exposed by FullCalendar as `event.extendedProps`, so `body` becomes
+ * `event.extendedProps.body` in the browser.
+ */
+function drubuzz_calendar_tooltip_js_settings_alter(array &$settings, AttachedAssetsInterface $assets): void {
+  if (empty($settings['fullcalendar']) || !is_array($settings['fullcalendar'])) {
+    return;
+  }
+
+  $renderer = \Drupal::service('renderer');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  // Cache extracted data per request in case an event appears more than once.
+  $extra = [];
+
+  foreach ($settings['fullcalendar'] as &$view_settings) {
+    if (empty($view_settings['options']['eventSources']) || !is_array($view_settings['options']['eventSources'])) {
+      continue;
+    }
+
+    foreach ($view_settings['options']['eventSources'] as &$source) {
+      // A Drupal event source is a plain array of event objects.
+      if (!is_array($source)) {
+        continue;
+      }
+
+      foreach ($source as &$event) {
+        if (!is_array($event) || !isset($event['id'])) {
+          continue;
+        }
+
+        $nid = $event['id'];
+        if (!array_key_exists($nid, $extra)) {
+          $extra[$nid] = [
+            'body' => '',
+            'category' => '',
+            'categoryLabel' => '',
+            'postUrl' => Url::fromRoute('node.add', ['node_type' => 'posts'])->toString(),
+            'postLabel' => '',
+            'postExists' => FALSE,
+          ];
+          $node = $node_storage->load($nid);
+          if ($node && $node->access('view')) {
+            if (
+              $node->hasField(DRUBUZZ_CALENDAR_TOOLTIP_BODY_FIELD)
+              && !$node->get(DRUBUZZ_CALENDAR_TOOLTIP_BODY_FIELD)->isEmpty()
+            ) {
+              $build = $node->get(DRUBUZZ_CALENDAR_TOOLTIP_BODY_FIELD)->view([
+                'label' => 'hidden',
+                'type' => 'text_default',
+              ]);
+              $extra[$nid]['body'] = trim((string) $renderer->renderInIsolation($build));
+            }
+
+            if (
+              $node->hasField(DRUBUZZ_CALENDAR_TOOLTIP_CATEGORY_FIELD)
+              && !$node->get(DRUBUZZ_CALENDAR_TOOLTIP_CATEGORY_FIELD)->isEmpty()
+            ) {
+              $item = $node->get(DRUBUZZ_CALENDAR_TOOLTIP_CATEGORY_FIELD)->first();
+              $value = $item->value;
+              $allowed = $item->getFieldDefinition()->getSetting('allowed_values');
+              $extra[$nid]['category'] = $value;
+              $extra[$nid]['categoryLabel'] = $allowed[$value] ?? $value;
+            }
+
+            // The one Post this event publishes (field_post on the Event
+            // bundle). When set, link to it; otherwise keep the "create Post"
+            // URL seeded above.
+            if ($node->hasField('field_post') && !$node->get('field_post')->isEmpty()) {
+              $post = $node->get('field_post')->entity;
+              if ($post && $post->access('view')) {
+                $extra[$nid]['postUrl'] = $post->toUrl()->toString();
+                $extra[$nid]['postLabel'] = $post->label();
+                $extra[$nid]['postExists'] = TRUE;
+              }
+            }
+          }
+        }
+
+        if ($extra[$nid]['body'] !== '') {
+          $event['body'] = $extra[$nid]['body'];
+        }
+        if ($extra[$nid]['category'] !== '') {
+          $event['category'] = $extra[$nid]['category'];
+          $event['categoryLabel'] = $extra[$nid]['categoryLabel'];
+        }
+        $event['postUrl'] = $extra[$nid]['postUrl'];
+        $event['postExists'] = $extra[$nid]['postExists'];
+        $event['postLabel'] = $extra[$nid]['postLabel'];
+      }
+    }
+  }
+}

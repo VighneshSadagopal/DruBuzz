@@ -1,0 +1,42 @@
+{#
+/**
+ * @file
+ * DruBuzz status messages — rendered as stacked toast notifications in the
+ * top-right. css/toasts.css positions the container; js/toasts.js adds the
+ * auto-dismiss timer and hover-to-pause. A close button is provided here so it
+ * works without JS too.
+ *
+ * @see template_preprocess_status_messages()
+ */
+#}
+<div data-drupal-messages class="db-toasts">
+  {% for type, messages in message_list %}
+    <div
+      role="contentinfo"
+      aria-label="{{ status_headings[type] }}"
+      {{ (attributes|without('role', 'aria-label')).addClass('messages', 'messages--' ~ type, 'db-toast') }}
+    >
+      {% if type == 'error' %}<div role="alert">{% endif %}
+
+      <button type="button" class="db-toast__close" aria-label="{{ 'Dismiss'|t }}">&times;</button>
+
+      {% if status_headings[type] %}
+        <h2 class="visually-hidden">{{ status_headings[type] }}</h2>
+      {% endif %}
+
+      <div class="db-toast__body">
+        {% if messages|length > 1 %}
+          <ul class="db-toast__list">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          {{ messages|first }}
+        {% endif %}
+      </div>
+
+      {% if type == 'error' %}</div>{% endif %}
+    </div>
+  {% endfor %}
+</div>

@@ -1,0 +1,4 @@
+'administer drubuzz social preview':
+  title: 'Administer DruBuzz Social Preview'
+  description: 'Configure the display name, handle and profile picture shown on post previews.'
+  restrict access: true

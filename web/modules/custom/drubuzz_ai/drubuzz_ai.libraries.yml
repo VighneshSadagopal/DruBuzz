@@ -1,0 +1,11 @@
+form:
+  version: 1.x
+  js:
+    js/generate.js: {}
+  css:
+    theme:
+      css/generate.css: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - core/drupalSettings

@@ -1,0 +1,39 @@
+global:
+  version: VERSION
+  css:
+    base:
+      # Google Fonts — Bricolage Grotesque (display) + Hanken Grotesk (body).
+      https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap: { type: external, minified: true }
+    theme:
+      css/base.css: {}
+      css/app.css: {}
+      css/toasts.css: {}
+  js:
+    js/toasts.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+
+landing:
+  version: VERSION
+  css:
+    theme:
+      css/landing.css: {}
+
+calendar:
+  version: VERSION
+  css:
+    theme:
+      css/calendar.css: {}
+
+dialog:
+  version: VERSION
+  css:
+    theme:
+      css/dialog.css: {}
+
+ckeditor:
+  version: VERSION
+  css:
+    theme:
+      css/ckeditor.css: {}

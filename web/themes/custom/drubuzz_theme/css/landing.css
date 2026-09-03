@@ -1,0 +1,159 @@
+/**
+ * @file
+ * DruBuzz landing page (front page only). Depends on css/base.css tokens.
+ */
+
+.db-landing { background: var(--db-bg); }
+.db-landing a:hover { text-decoration: none; }
+
+/* --- Nav ------------------------------------------------------------- */
+.db-l-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  max-width: var(--db-shell-max);
+  margin: 0 auto;
+  padding: 1.6rem 3rem;
+}
+.db-l-nav__links { display: flex; gap: 1.6rem; }
+.db-l-nav__links a { color: var(--db-ink-2); font-weight: 600; font-size: 0.9rem; }
+.db-l-nav__links a:hover { color: var(--db-ink); }
+.db-l-nav__right { margin-left: auto; display: flex; align-items: center; gap: 1.1rem; }
+.db-l-signin { color: var(--db-ink-2); font-weight: 600; font-size: 0.9rem; }
+.db-l-signin:hover { color: var(--db-ink); }
+
+/* --- Hero ---------------------------------------------------------- */
+.db-l-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+  max-width: var(--db-shell-max);
+  margin: 0 auto;
+  padding: 4.5rem 3rem 5rem;
+}
+.db-l-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--db-ink-3);
+  margin-bottom: 1.4rem;
+}
+.db-l-eyebrow .db-brand__mark { width: 7px; height: 7px; box-shadow: none; }
+.db-l-hero h1 { font-size: clamp(2.6rem, 1.8rem + 3vw, 3.9rem); letter-spacing: -0.03em; line-height: 1.02; }
+.db-l-hero h1 em { font-style: normal; color: var(--db-signal); }
+.db-l-lead { margin-top: 1.5rem; font-size: 1.12rem; color: var(--db-ink-2); max-width: 30rem; }
+.db-l-cta { display: flex; gap: 0.9rem; margin-top: 2rem; flex-wrap: wrap; }
+.db-l-cta .db-btn { padding: 0.8rem 1.25rem; font-size: 0.9rem; }
+
+/* Hero visual — mini calendar */
+.db-l-glass {
+  background: var(--db-surface-1);
+  border: 1px solid var(--db-line-2);
+  border-radius: 20px;
+  padding: 1.25rem;
+  box-shadow: 0 40px 90px -50px rgba(0, 0, 0, 0.9);
+}
+.db-l-glass__hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.9rem; }
+.db-l-glass__hd .t { font-family: var(--db-font-display); font-weight: 800; font-size: 0.95rem; }
+.db-l-glass__hd .r { color: var(--db-ink-3); font-size: 0.75rem; font-weight: 600; }
+.db-l-mini { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; }
+.db-l-mini__col {
+  background: var(--db-bg);
+  border: 1px solid var(--db-line);
+  border-radius: 11px;
+  padding: 0.55rem;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.db-l-mini__d { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--db-ink-3); }
+.db-l-mini__d b { display: block; font-family: var(--db-font-display); font-size: 0.8rem; color: var(--db-ink); letter-spacing: 0; }
+.db-l-mini__p { border-radius: 7px; padding: 0.45rem; font-size: 0.62rem; line-height: 1.3; color: #ded5c6; background: var(--db-surface-3); }
+.db-l-mini__p b { display: block; color: var(--db-ink-2); font-size: 0.56rem; letter-spacing: 0.03em; margin-bottom: 0.18rem; }
+.db-l-mini__p.is-sched { box-shadow: inset 0 2px 0 var(--db-blue); }
+.db-l-mini__p.is-review { box-shadow: inset 0 2px 0 var(--db-amber); }
+.db-l-mini__p.is-draft { box-shadow: inset 0 2px 0 var(--db-ink-3); }
+
+/* --- Trust strip -------------------------------------------------- */
+.db-l-trust { border-top: 1px solid var(--db-line); border-bottom: 1px solid var(--db-line); }
+.db-l-trust__row {
+  max-width: var(--db-shell-max);
+  margin: 0 auto;
+  padding: 1.4rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+.db-l-k { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--db-ink-3); font-weight: 700; }
+.db-l-trust__end { margin-left: auto; }
+.db-l-chans { display: flex; gap: 1.6rem; color: var(--db-ink-2); font-weight: 700; font-size: 0.9rem; flex-wrap: wrap; }
+
+/* --- Feature section ------------------------------------------- */
+.db-l-section { max-width: var(--db-shell-max); margin: 0 auto; padding: 6rem 3rem; }
+.db-l-section > h2 { font-size: clamp(1.8rem, 1.3rem + 2vw, 2.5rem); max-width: 39rem; }
+.db-l-sub { margin-top: 1.1rem; color: var(--db-ink-2); font-size: 1.05rem; max-width: 35rem; }
+.db-l-feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; margin-top: 3rem; }
+.db-l-feat { background: var(--db-surface-1); border: 1px solid var(--db-line); border-radius: var(--db-radius-lg); padding: 1.6rem; }
+.db-l-feat__ic {
+  width: 42px; height: 42px; border-radius: var(--db-radius);
+  background: rgba(205, 242, 58, 0.12); color: var(--db-signal);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 1.1rem;
+}
+.db-l-feat__ic svg { width: 21px; height: 21px; }
+.db-l-feat h3 { font-size: 1.18rem; }
+.db-l-feat p { margin-top: 0.6rem; color: var(--db-ink-2); font-size: 0.92rem; }
+
+/* --- Steps band ---------------------------------------------- */
+.db-l-steps { background: var(--db-bg); border-top: 1px solid var(--db-line); border-bottom: 1px solid var(--db-line); }
+.db-l-steps__inner {
+  max-width: var(--db-shell-max);
+  margin: 0 auto;
+  padding: 5rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.5rem;
+}
+.db-l-step__no { font-family: var(--db-font-display); font-weight: 800; font-size: 0.85rem; color: var(--db-signal); letter-spacing: 0.1em; }
+.db-l-step h3 { font-size: 1.25rem; margin-top: 0.75rem; }
+.db-l-step p { margin-top: 0.6rem; color: var(--db-ink-2); font-size: 0.92rem; }
+
+/* --- CTA band ---------------------------------------------- */
+.db-l-band { max-width: var(--db-shell-max); margin: 0 auto; padding: 6.5rem 3rem; text-align: center; }
+.db-l-band h2 { font-size: clamp(2rem, 1.4rem + 2.5vw, 3rem); max-width: 45rem; margin: 0 auto; }
+.db-l-band p { margin-top: 1.1rem; color: var(--db-ink-2); font-size: 1.05rem; }
+.db-l-band .db-l-cta { justify-content: center; margin-top: 2rem; }
+
+/* --- Footer ---------------------------------------------- */
+.db-l-footer {
+  border-top: 1px solid var(--db-line);
+  max-width: var(--db-shell-max);
+  margin: 0 auto;
+  padding: 2.75rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.db-l-footer__note { color: var(--db-ink-3); font-size: 0.85rem; }
+
+/* --- Responsive ---------------------------------------------- */
+@media (max-width: 900px) {
+  .db-l-hero { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem 1.5rem; }
+  .db-l-nav { padding: 1.2rem 1.5rem; flex-wrap: wrap; gap: 1rem; }
+  .db-l-nav__links { display: none; }
+  .db-l-trust__row, .db-l-section, .db-l-steps__inner, .db-l-band, .db-l-footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .db-l-feats { grid-template-columns: 1fr; }
+  .db-l-steps__inner { grid-template-columns: 1fr; gap: 2rem; }
+  .db-l-trust__end { margin-left: 0; }
+}
+
+@media (max-width: 560px) {
+  .db-l-mini { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

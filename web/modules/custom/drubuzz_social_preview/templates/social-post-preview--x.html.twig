@@ -1,0 +1,37 @@
+{#
+/**
+ * @file
+ * X (Twitter) post layout: avatar left, "Name @handle · time" on one line,
+ * body, optional 16px-radius media, then the reply / repost / like / views /
+ * bookmark action bar. Body text comes from field_description_x (≤ 280).
+ */
+#}
+{% import '@drubuzz_social_preview/_icons.html.twig' as icons %}
+
+<article class="sp sp--x">
+  <div class="x-post">
+    {% include '@drubuzz_social_preview/_avatar.html.twig' with { post: post, modifier: 'sp-avatar--round' } %}
+    <div class="x-post__main">
+      <div class="x-post__head">
+        <span class="x-post__name">{{ post.author_name }}</span>
+        <svg class="x-post__badge" viewBox="0 0 22 22" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M20.4 11a3.6 3.6 0 0 0-1.9-3.2 3.6 3.6 0 0 0-.9-4 3.6 3.6 0 0 0-4-.9A3.6 3.6 0 0 0 11 1.6a3.6 3.6 0 0 0-3.2 1.9 3.6 3.6 0 0 0-4 .9 3.6 3.6 0 0 0-.9 4A3.6 3.6 0 0 0 1.6 11a3.6 3.6 0 0 0 1.9 3.2 3.6 3.6 0 0 0 .9 4 3.6 3.6 0 0 0 4 .9A3.6 3.6 0 0 0 11 20.4a3.6 3.6 0 0 0 3.2-1.9 3.6 3.6 0 0 0 4-.9 3.6 3.6 0 0 0 .9-4A3.6 3.6 0 0 0 20.4 11zm-9.6 4.3-3.5-3.5 1.4-1.4 2.1 2.1 4.6-4.6 1.4 1.4z"/></svg>
+        <span class="x-post__handle">{{ post.handle }}</span>
+        <span class="x-post__sep">·</span>
+        <time class="x-post__time" datetime="{{ post.datetime }}">{{ post.timestamp }}</time>
+        <span class="x-post__more">···</span>
+      </div>
+      <div class="x-post__body">{{ post.body|nl2br }}</div>
+      {% if post.image %}
+        <div class="x-post__media">{{ post.image }}</div>
+      {% endif %}
+      <div class="x-post__actions">
+        <span class="x-post__action">{{ icons.ui('reply') }}</span>
+        <span class="x-post__action x-post__action--rt">{{ icons.ui('repost') }}</span>
+        <span class="x-post__action x-post__action--like">{{ icons.ui('heart') }}</span>
+        <span class="x-post__action">{{ icons.ui('views') }}</span>
+        <span class="x-post__action x-post__action--end">{{ icons.ui('bookmark') }}{{ icons.ui('share') }}</span>
+      </div>
+    </div>
+  </div>
+</article>
+{% include '@drubuzz_social_preview/_meta.html.twig' with { post: post } %}

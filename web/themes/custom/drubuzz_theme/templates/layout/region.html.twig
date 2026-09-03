@@ -1,0 +1,13 @@
+{#
+/**
+ * @file
+ * Theme override to display a region.
+ *
+ * @see \Drupal\Core\Theme\ThemePreprocess::preprocessRegion()
+ */
+#}
+{% if content %}
+  <div{{ attributes }}>
+    {{ content }}
+  </div>
+{% endif %}

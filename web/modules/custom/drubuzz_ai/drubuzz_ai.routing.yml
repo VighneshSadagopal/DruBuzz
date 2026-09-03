@@ -1,0 +1,17 @@
+drubuzz_ai.generate:
+  path: '/drubuzz-ai/generate'
+  defaults:
+    _controller: '\Drupal\drubuzz_ai\Controller\GenerateController::generate'
+  methods: [POST]
+  requirements:
+    # Gated by permission. No DB side effects (calls the AI API and returns
+    # text), and the response is same-origin only, so no CSRF token is needed.
+    _permission: 'generate post content with ai'
+
+drubuzz_ai.settings:
+  path: '/admin/config/content/drubuzz-ai'
+  defaults:
+    _form: '\Drupal\drubuzz_ai\Form\SettingsForm'
+    _title: 'DruBuzz AI content'
+  requirements:
+    _permission: 'administer drubuzz ai'

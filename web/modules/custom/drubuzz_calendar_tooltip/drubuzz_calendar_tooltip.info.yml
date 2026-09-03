@@ -1,0 +1,8 @@
+name: 'DruBuzz Calendar Tooltip'
+type: module
+description: 'Shows a hover tooltip with the full event details (title, date and the "Notes / Comments" body field) on the Events Calendar (FullCalendar) view.'
+package: DruBuzz
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - fullcalendar:fullcalendar
+  - node:node

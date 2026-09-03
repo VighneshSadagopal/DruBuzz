@@ -1,0 +1,5 @@
+drubuzz_publish.node_publish:
+  route_name: drubuzz_publish.node_publish
+  base_route: entity.node.canonical
+  title: 'Publish'
+  weight: 20

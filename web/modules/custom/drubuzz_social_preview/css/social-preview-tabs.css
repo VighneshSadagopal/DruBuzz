@@ -1,0 +1,95 @@
+/**
+ * @file
+ * Inline tabbed social preview on a Posts node page.
+ *
+ * The strip sits in the (dark) DruBuzz theme; the preview cards inside each
+ * panel keep their own light styling from social-preview.css. Tokens fall back
+ * so the component also holds up under a light theme.
+ */
+
+.sp-tabs {
+  margin: 1.5rem 0;
+}
+
+.sp-tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--db-line, rgba(0, 0, 0, 0.12));
+}
+
+.sp-tabs__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: -1px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--db-ink-2, #6b7280);
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sp-tabs__tab:hover {
+  color: var(--db-ink, #111827);
+}
+
+.sp-tabs__tab.is-active {
+  color: var(--db-ink, #111827);
+  border-bottom-color: var(--db-signal, #cdf23a);
+}
+
+.sp-tabs__tab:focus-visible {
+  outline: 2px solid var(--db-signal, #2563eb);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.sp-tabs__icon {
+  display: inline-flex;
+  color: currentColor;
+}
+.sp-tabs__icon svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+/* Brand colour on the icon of the active / hovered tab only. */
+.sp-tabs__tab--linkedin:hover .sp-tabs__icon,
+.sp-tabs__tab--linkedin.is-active .sp-tabs__icon { color: #0a66c2; }
+.sp-tabs__tab--x:hover .sp-tabs__icon,
+.sp-tabs__tab--x.is-active .sp-tabs__icon { color: var(--db-ink, #0f1419); }
+.sp-tabs__tab--instagram:hover .sp-tabs__icon,
+.sp-tabs__tab--instagram.is-active .sp-tabs__icon { color: #d62976; }
+.sp-tabs__tab--facebook:hover .sp-tabs__icon,
+.sp-tabs__tab--facebook.is-active .sp-tabs__icon { color: #1877f2; }
+.sp-tabs__tab--mastodon:hover .sp-tabs__icon,
+.sp-tabs__tab--mastodon.is-active .sp-tabs__icon { color: #6364ff; }
+
+.sp-tabs__panel {
+  padding-top: 1.25rem;
+}
+.sp-tabs__panel[hidden] {
+  display: none;
+}
+.sp-tabs__panel:focus-visible {
+  outline: none;
+}
+
+/* The preview card + its char-budget line already center themselves. */
+.sp-tabs__panel .sp,
+.sp-tabs__panel .sp-meta {
+  margin-left: 0;
+}
+
+@media (max-width: 480px) {
+  .sp-tabs__list { gap: 0; }
+  .sp-tabs__tab { padding: 0.55rem 0.6rem; font-size: 0.8rem; }
+  .sp-tabs__label { display: none; }
+}

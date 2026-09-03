@@ -1,0 +1,52 @@
+/**
+ * @file
+ * "Generate with AI" panel on the Posts form. Uses DruBuzz theme tokens where
+ * present, with light fallbacks for the admin theme.
+ */
+
+.drubuzz-ai .drubuzz-ai__intro {
+  margin: 0 0 0.75rem;
+  color: var(--db-ink-2, #4b5563);
+  font-size: 0.875rem;
+}
+
+.drubuzz-ai .drubuzz-ai__idea-wrap {
+  margin: 0 0 0.6rem;
+}
+
+.drubuzz-ai .drubuzz-ai__idea {
+  width: 100%;
+  min-height: 4.5rem;
+}
+
+.drubuzz-ai__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.drubuzz-ai__go[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+.drubuzz-ai.is-busy .drubuzz-ai__go::before {
+  content: "";
+  width: 0.85em;
+  height: 0.85em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: drubuzz-ai-spin 0.7s linear infinite;
+}
+
+.drubuzz-ai__status {
+  margin: 0.6rem 0 0;
+  min-height: 1.2em;
+  font-size: 0.8125rem;
+  color: var(--db-ink-2, #4b5563);
+}
+.drubuzz-ai__status.is-ok { color: #15803d; }
+.drubuzz-ai__status.is-error { color: var(--db-coral, #b91c1c); }
+
+@keyframes drubuzz-ai-spin {
+  to { transform: rotate(360deg); }
+}

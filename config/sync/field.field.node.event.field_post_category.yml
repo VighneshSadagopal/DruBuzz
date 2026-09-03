@@ -1,0 +1,21 @@
+uuid: 33fe2c79-735b-4f7d-8495-6d5d61f4a579
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_post_category
+    - node.type.event
+  module:
+    - options
+id: node.event.field_post_category
+field_name: field_post_category
+entity_type: node
+bundle: event
+label: 'Post Category'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

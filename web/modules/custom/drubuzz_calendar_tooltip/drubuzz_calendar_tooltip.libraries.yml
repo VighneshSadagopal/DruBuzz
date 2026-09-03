@@ -1,0 +1,9 @@
+tooltip:
+  version: 1.x
+  js:
+    js/calendar-tooltip.js: {}
+  css:
+    theme:
+      css/calendar-tooltip.css: {}
+  dependencies:
+    - core/drupalSettings

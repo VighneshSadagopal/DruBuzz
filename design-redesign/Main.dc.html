@@ -1,0 +1,302 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: #141210; color: #f4efe6;
+      font-family: "Hanken Grotesk", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+      font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    a { color: #cdf23a; text-decoration: none; }
+    a:hover { color: #e6ff8a; }
+    h1, h2, h3 { font-family: "Bricolage Grotesque", "Trebuchet MS", Verdana, sans-serif;
+      font-weight: 800; margin: 0; letter-spacing: -0.02em; line-height: 1.06; }
+    svg { display: block; }
+
+    .app { display: flex; width: 1440px; height: 920px; overflow: hidden; }
+
+    /* ---- Sidebar ---- */
+    .side { width: 240px; flex: 0 0 240px; background: #191512;
+      border-right: 1px solid rgba(255,255,255,0.07);
+      display: flex; flex-direction: column; padding: 24px 16px; gap: 26px; }
+    .brand { display: flex; align-items: center; gap: 11px; padding: 0 8px;
+      font-family: "Bricolage Grotesque", "Trebuchet MS", Verdana, sans-serif;
+      font-weight: 800; font-size: 19px; letter-spacing: -0.035em; }
+    .brand .mark { width: 13px; height: 13px; border-radius: 50%; background: #cdf23a;
+      box-shadow: 0 0 0 4px rgba(205,242,58,0.16); flex: 0 0 auto; }
+    .nav { display: flex; flex-direction: column; gap: 3px; }
+    .nav a { display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+      border-radius: 10px; color: #a89f90; font-weight: 600; }
+    .nav a svg { width: 18px; height: 18px; flex: 0 0 auto; }
+    .nav a:hover { background: rgba(255,255,255,0.04); color: #f4efe6; }
+    .nav a.on { background: rgba(205,242,58,0.12); color: #f4efe6; }
+    .nav a.on svg { color: #cdf23a; }
+    .side__spacer { flex: 1; }
+    .idchip { display: flex; align-items: center; gap: 10px; padding: 10px;
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; background: #1e1a16; }
+    .idchip .av { width: 34px; height: 34px; border-radius: 10px; flex: 0 0 auto;
+      background: linear-gradient(135deg, #cdf23a, #8fb81f); color: #141210;
+      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
+    .idchip .nm { font-weight: 700; font-size: 13px; }
+    .idchip .hd { color: #8a8072; font-size: 12px; }
+
+    /* ---- Main column ---- */
+    .main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .topbar { display: flex; align-items: center; gap: 18px; padding: 20px 28px;
+      border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .topbar h1 { font-size: 22px; }
+    .daterange { display: flex; align-items: center; gap: 4px; color: #a89f90; font-weight: 600; font-size: 13px; }
+    .iconbtn { width: 30px; height: 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.14);
+      background: transparent; color: #cbc2b2; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .iconbtn svg { width: 15px; height: 15px; }
+    .seg { display: flex; border: 1px solid rgba(255,255,255,0.14); border-radius: 9px; overflow: hidden; }
+    .seg button { padding: 7px 14px; background: transparent; border: 0; color: #a89f90;
+      font-family: inherit; font-weight: 700; font-size: 12px; cursor: pointer; }
+    .seg button.on { background: #f4efe6; color: #141210; }
+    .push { margin-left: auto; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 10px;
+      font-family: inherit; font-weight: 700; font-size: 13px; border: 1px solid transparent; cursor: pointer; }
+    .btn svg { width: 15px; height: 15px; }
+    .btn--primary { background: #cdf23a; color: #141210; }
+    .btn--ghost { background: transparent; border-color: rgba(255,255,255,0.16); color: #f4efe6; }
+
+    .board { flex: 1; display: flex; gap: 0; min-height: 0; }
+    .cal { flex: 1; min-width: 0; padding: 20px 28px; display: flex; flex-direction: column; gap: 14px; }
+    .filterrow { display: flex; align-items: center; gap: 8px; }
+    .chip { display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14); font-weight: 600; font-size: 12px; color: #a89f90; cursor: pointer; }
+    .chip .cd { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; }
+    .chip.on { background: #f4efe6; color: #141210; border-color: #f4efe6; }
+
+    .week { flex: 1; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 1px; background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; overflow: hidden; }
+    .col { background: #17130f; display: flex; flex-direction: column; min-width: 0; }
+    .col.is-weekend { background: #151109; }
+    .colhd { display: flex; align-items: baseline; justify-content: space-between;
+      padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .colhd .d { font-size: 10.5px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: #8a8072; }
+    .colhd .n { font-family: "Bricolage Grotesque", "Trebuchet MS", Verdana, sans-serif; font-weight: 700; font-size: 15px; }
+    .colhd .n.today { background: #cdf23a; color: #141210; border-radius: 7px; padding: 1px 7px; }
+    .colbody { flex: 1; padding: 9px; display: flex; flex-direction: column; gap: 8px; }
+    .add { margin-top: auto; display: flex; align-items: center; justify-content: center;
+      height: 30px; border: 1px dashed rgba(255,255,255,0.13); border-radius: 8px; color: #5c5348; }
+    .add svg { width: 14px; height: 14px; }
+
+    .post { background: #221e18; border: 1px solid rgba(255,255,255,0.07); border-radius: 9px;
+      padding: 9px; display: flex; flex-direction: column; gap: 6px; }
+    .post--review { box-shadow: inset 0 2px 0 #e0a43b; }
+    .post--sched  { box-shadow: inset 0 2px 0 #7cb8ff; }
+    .post--draft  { box-shadow: inset 0 2px 0 #6f665a; }
+    .post--live   { box-shadow: inset 0 2px 0 #cdf23a; }
+    .post__t { font-size: 10.5px; font-weight: 700; letter-spacing: 0.03em; color: #8a8072;
+      display: flex; align-items: center; gap: 6px; }
+    .post__dots { display: flex; gap: 3px; margin-left: auto; }
+    .post__dots i { width: 7px; height: 7px; border-radius: 50%; display: block; }
+    .post__c { font-size: 11.5px; line-height: 1.35; color: #e7e0d3;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+    /* ---- Right rail ---- */
+    .rail { width: 312px; flex: 0 0 312px; border-left: 1px solid rgba(255,255,255,0.07);
+      padding: 22px 20px; display: flex; flex-direction: column; gap: 18px; background: #16120f; }
+    .rail h3 { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8072; font-weight: 700; }
+    .up { display: flex; flex-direction: column; gap: 10px; }
+    .upitem { background: #1e1a16; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 7px; }
+    .upitem__top { display: flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 700; color: #a89f90; }
+    .upitem__top .dots { display: flex; gap: 3px; }
+    .upitem__top .dots i { width: 7px; height: 7px; border-radius: 50%; display: block; }
+    .upitem__c { font-size: 12.5px; color: #e7e0d3; line-height: 1.35; }
+    .pill { display: inline-flex; align-items: center; align-self: flex-start; gap: 6px;
+      padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase; }
+    .pill--draft { background: rgba(168,159,144,0.16); color: #c7bda9; }
+    .pill--review { background: rgba(224,164,59,0.18); color: #e0a43b; }
+    .pill--sched { background: rgba(124,184,255,0.16); color: #7cb8ff; }
+    .review-callout { background: rgba(224,164,59,0.1); border: 1px solid rgba(224,164,59,0.28);
+      border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+    .review-callout .hh { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 13px; color: #e0a43b;
+      font-family: "Bricolage Grotesque", "Trebuchet MS", Verdana, sans-serif; }
+    .review-callout .rr { font-size: 12.5px; color: #d8cfbf; display: flex; align-items: center; gap: 8px; }
+    .review-callout .rr .dot { width: 7px; height: 7px; border-radius: 50%; background: #e0a43b; flex: 0 0 auto; }
+  </style>
+</helmet>
+
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="side">
+    <div class="brand"><span class="mark"></span>DruBuzz</div>
+    <nav class="nav">
+      <a href="#" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>Calendar</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 5.5 18.5 10M4 20l1-4L16 5l3 3L8 19l-4 1Z"/></svg>Composer</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/></svg>Queue</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M9 3 7 21M17 3l-2 18M4 8.5h16M3 15.5h16"/></svg>Channels</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M2.5 12h3M18.5 12h3M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke-linecap="round"/></svg>Settings</a>
+    </nav>
+    <div class="side__spacer"></div>
+    <div class="idchip">
+      <span class="av">NS</span>
+      <span><span class="nm">Nova Studio</span><br><span class="hd">@novastudio</span></span>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <header class="topbar">
+      <h1>This week</h1>
+      <div class="daterange">
+        <button class="iconbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg></button>
+        Mar 3 – Mar 9, 2026
+        <button class="iconbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 6 6 6-6 6"/></svg></button>
+      </div>
+      <div class="seg">
+        <button class="on">Week</button>
+        <button>Month</button>
+        <button>List</button>
+      </div>
+      <div class="push"></div>
+      <button class="btn btn--primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Compose</button>
+    </header>
+
+    <div class="board">
+      <section class="cal">
+        <div class="filterrow">
+          <span class="chip on">All channels</span>
+          <span class="chip"><span class="cd" style="background:#4a8fd0"></span>LinkedIn</span>
+          <span class="chip"><span class="cd" style="background:#e8e3d7"></span>X</span>
+          <span class="chip"><span class="cd" style="background:#d46aa8"></span>Instagram</span>
+          <span class="chip"><span class="cd" style="background:#5b8fd6"></span>Facebook</span>
+          <span class="chip"><span class="cd" style="background:#8f8ff0"></span>Mastodon</span>
+        </div>
+
+        <div class="week">
+          <!-- Mon 3 -->
+          <div class="col">
+            <div class="colhd"><span class="d">Mon</span><span class="n">3</span></div>
+            <div class="colbody">
+              <div class="post post--sched">
+                <div class="post__t">09:00<span class="post__dots"><i style="background:#4a8fd0"></i></span></div>
+                <div class="post__c">Spring launch teaser — behind the scenes of the new collection</div>
+              </div>
+              <div class="post post--sched">
+                <div class="post__t">14:30<span class="post__dots"><i style="background:#e8e3d7"></i></span></div>
+                <div class="post__c">3 things we learned shipping v2 this week — a short thread</div>
+              </div>
+              <div class="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+            </div>
+          </div>
+          <!-- Tue 4 -->
+          <div class="col">
+            <div class="colhd"><span class="d">Tue</span><span class="n">4</span></div>
+            <div class="colbody">
+              <div class="post post--review">
+                <div class="post__t">11:00<span class="post__dots"><i style="background:#d46aa8"></i></span></div>
+                <div class="post__c">Studio tour reel — swipe for the full space</div>
+              </div>
+              <div class="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+            </div>
+          </div>
+          <!-- Wed 5 (today) -->
+          <div class="col">
+            <div class="colhd"><span class="d">Wed</span><span class="n today">5</span></div>
+            <div class="colbody">
+              <div class="post post--sched">
+                <div class="post__t">08:30<span class="post__dots"><i style="background:#e8e3d7"></i><i style="background:#8f8ff0"></i></span></div>
+                <div class="post__c">New on the blog: planning a week of posts in one sitting</div>
+              </div>
+              <div class="post post--draft">
+                <div class="post__t">17:00<span class="post__dots"><i style="background:#5b8fd6"></i></span></div>
+                <div class="post__c">Community AMA recap — the five questions that came up most</div>
+              </div>
+              <div class="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+            </div>
+          </div>
+          <!-- Thu 6 -->
+          <div class="col">
+            <div class="colhd"><span class="d">Thu</span><span class="n">6</span></div>
+            <div class="colbody">
+              <div class="post post--sched">
+                <div class="post__t">10:00<span class="post__dots"><i style="background:#4a8fd0"></i></span></div>
+                <div class="post__c">Hiring: senior brand designer, fully remote — details in comments</div>
+              </div>
+              <div class="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+            </div>
+          </div>
+          <!-- Fri 7 -->
+          <div class="col">
+            <div class="colhd"><span class="d">Fri</span><span class="n">7</span></div>
+            <div class="colbody">
+              <div class="post post--review">
+                <div class="post__t">12:00<span class="post__dots"><i style="background:#d46aa8"></i></span></div>
+                <div class="post__c">Friday moodboard — what the studio is looking at this week</div>
+              </div>
+              <div class="post post--draft">
+                <div class="post__t">15:00<span class="post__dots"><i style="background:#e8e3d7"></i></span></div>
+                <div class="post__c">Weekend reading list</div>
+              </div>
+              <div class="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+            </div>
+          </div>
+          <!-- Sat 8 -->
+          <div class="col is-weekend">
+            <div class="colhd"><span class="d">Sat</span><span class="n">8</span></div>
+            <div class="colbody">
+              <div class="add" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+            </div>
+          </div>
+          <!-- Sun 9 -->
+          <div class="col is-weekend">
+            <div class="colhd"><span class="d">Sun</span><span class="n">9</span></div>
+            <div class="colbody">
+              <div class="post post--draft">
+                <div class="post__t">18:00<span class="post__dots"><i style="background:#8f8ff0"></i></span></div>
+                <div class="post__c">Week ahead thread — what we are shipping and why</div>
+              </div>
+              <div class="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right rail -->
+      <aside class="rail">
+        <h3>Up next</h3>
+        <div class="up">
+          <div class="upitem">
+            <div class="upitem__top">Today · 08:30 <span class="dots"><i style="background:#e8e3d7"></i><i style="background:#8f8ff0"></i></span></div>
+            <div class="upitem__c">New on the blog: planning a week of posts in one sitting</div>
+            <span class="pill pill--sched">Scheduled</span>
+          </div>
+          <div class="upitem">
+            <div class="upitem__top">Today · 17:00 <span class="dots"><i style="background:#5b8fd6"></i></span></div>
+            <div class="upitem__c">Community AMA recap — the five questions that came up most</div>
+            <span class="pill pill--draft">Draft</span>
+          </div>
+          <div class="upitem">
+            <div class="upitem__top">Thu · 10:00 <span class="dots"><i style="background:#4a8fd0"></i></span></div>
+            <div class="upitem__c">Hiring: senior brand designer, fully remote</div>
+            <span class="pill pill--sched">Scheduled</span>
+          </div>
+        </div>
+
+        <div class="review-callout">
+          <div class="hh">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 8v5M12 16.5h.01"/><circle cx="12" cy="12" r="9"/></svg>
+            Needs review · 2
+          </div>
+          <div class="rr"><span class="dot"></span>Studio tour reel — Instagram</div>
+          <div class="rr"><span class="dot"></span>Friday moodboard — Instagram</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
